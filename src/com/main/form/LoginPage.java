@@ -140,8 +140,13 @@ public class LoginPage extends JFrame {
         //======== dialogPane ========
         {
             dialogPane.setBackground(new Color(0x1d1d1d));
-            dialogPane. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .
-            beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            dialogPane.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing
+            . border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing .border . TitledBorder
+            . CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .
+            awt . Font. BOLD ,12 ) ,java . awt. Color .red ) ,dialogPane. getBorder () ) )
+            ; dialogPane. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
+            ) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } )
+            ;
             dialogPane.setLayout(null);
 
             //======== contentPanel ========
@@ -151,7 +156,6 @@ public class LoginPage extends JFrame {
 
                 //---- EmailField ----
                 EmailField.setBackground(Color.gray);
-                EmailField.setCaretColor(Color.white);
                 EmailField.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -267,7 +271,6 @@ public class LoginPage extends JFrame {
 
             //---- PasswordField ----
             PasswordField.setBackground(Color.gray);
-            PasswordField.setCaretColor(Color.white);
             PasswordField.addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {

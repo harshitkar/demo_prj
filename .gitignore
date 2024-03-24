@@ -1,8 +1,9 @@
+/src/com/DataBaseConnector.java
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-!**src/com/main/DataBaseHelper.java/**/out
 
 ### Eclipse ###
 .apt_generated
