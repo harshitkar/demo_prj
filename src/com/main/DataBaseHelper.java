@@ -1,30 +1,23 @@
 package com.main;
 
 import java.awt.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DataBaseHelper {
 
-    Connection con;
     PreparedStatement pst;
     ResultSet rs;
-    String database_url = "jdbc:mysql://localhost:3306/testdb";
-
-    private Connection connect() {
-        con=null;
-        try {
-            con= DriverManager.getConnection(database_url, "root", "MySQL@104");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return con;
-    }
+    Connection con;
+    DataBaseConnector dataBaseConnector = new DataBaseConnector();
 
     public Boolean auth(String email, String password) {
-        String expectedPassword = new String();
+        String expectedPassword = "";
         try{
             String query = "SELECT * FROM users WHERE email = '" + email +"';";
-            con = this.connect();
+            con = dataBaseConnector.connect();
             pst = con.prepareStatement(query);
             rs = pst.executeQuery();
             if(rs.next()){
@@ -48,7 +41,7 @@ public class DataBaseHelper {
     public boolean addUser(String username, String email, String password) {
         try{
             String query = "insert into users values('" + email +"', '" + username + "', '" + password + "');";
-            con = this.connect();
+            con = dataBaseConnector.connect();
             pst = con.prepareStatement(query);
             try {
                 pst.executeUpdate();
@@ -70,7 +63,7 @@ public class DataBaseHelper {
     public boolean isUsernameAvailable(String username) {
         try{
             String query = "SELECT * FROM users WHERE name = '" + username +"';";
-            con = this.connect();
+            con = dataBaseConnector.connect();
             pst = con.prepareStatement(query);
             rs = pst.executeQuery();
             if(!rs.next()){
@@ -91,7 +84,7 @@ public class DataBaseHelper {
     public boolean isEmailRegistered(String email) {
         try{
             String query = "SELECT * FROM users WHERE email = '" + email +"';";
-            con = this.connect();
+            con = dataBaseConnector.connect();
             pst = con.prepareStatement(query);
             rs = pst.executeQuery();
             if(rs.next()){
