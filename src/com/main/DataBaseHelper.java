@@ -50,7 +50,11 @@ public class DataBaseHelper {
             String query = "insert into users values('" + email +"', '" + username + "', '" + password + "');";
             con = this.connect();
             pst = con.prepareStatement(query);
-            pst.executeUpdate();
+            try {
+                pst.executeUpdate();
+            } catch (SQLException e) {
+                return false;
+            }
         } catch(HeadlessException | SQLException ex){
             System.out.println("database error");
         }finally {
@@ -70,6 +74,27 @@ public class DataBaseHelper {
             pst = con.prepareStatement(query);
             rs = pst.executeQuery();
             if(!rs.next()){
+                return true;
+            }
+        } catch(HeadlessException | SQLException ex){
+            System.out.println("database error");
+        }finally {
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean isEmailRegistered(String email) {
+        try{
+            String query = "SELECT * FROM users WHERE email = '" + email +"';";
+            con = this.connect();
+            pst = con.prepareStatement(query);
+            rs = pst.executeQuery();
+            if(rs.next()){
                 return true;
             }
         } catch(HeadlessException | SQLException ex){

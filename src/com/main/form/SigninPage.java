@@ -42,11 +42,15 @@ public class SigninPage extends JFrame {
         } catch(Exception ex) {
             throw new RuntimeException(ex);
         }
-        DataBaseHelper DataBaseHelper = new DataBaseHelper();
-        if (DataBaseHelper.addUser(username, email, password)) {
-            System.out.println("Signin successful");
+        DataBaseHelper dataBaseHelper = new DataBaseHelper();
+        if(dataBaseHelper.isEmailRegistered(email)) {
+            emailErrorLabel.setText("Email id already registered");
         } else {
-            confirmSigninErrorLabel.setText("Unable to create an account");
+            if (dataBaseHelper.addUser(username, email, password)) {
+                System.out.println("Signin successful");
+            } else {
+                confirmSigninErrorLabel.setText("Unable to create an account");
+            }
         }
     }
 
@@ -67,7 +71,10 @@ public class SigninPage extends JFrame {
 
     private void EmailFieldKeyReleased(KeyEvent e) {
         if (e.getKeyCode()==KeyEvent.VK_ENTER){
-            if(emailField.getText().contains("@")) {
+            String email = emailField.getText();
+            if(email.isEmpty()) {
+                emailErrorLabel.setText("Enter an Email");
+            } else if(email.contains("@")) {
                 isEmailValid = true;
                 passwordField.grabFocus();
             } else {
@@ -101,22 +108,6 @@ public class SigninPage extends JFrame {
             emailErrorLabel.setText("Enter valid email");
         } else if (!isUsernameValid) {
             usernameErrorLabel.setText("Enter valid username");
-        }
-    }
-
-    private void emailFieldKeyPressed(KeyEvent e) {
-        if (e.getKeyCode()==KeyEvent.VK_ENTER) {
-            if(emailField.getText().isEmpty()) {
-                emailErrorLabel.setText("Enter an Email");
-            } else if(emailField.getText().contains("@")) {
-                isEmailValid = true;
-                passwordField.grabFocus();
-            } else {
-                emailErrorLabel.setText("Invalid email");
-            }
-        } else {
-            signinErrorLabel.setText("");
-            emailErrorLabel.setText("");
         }
     }
 
@@ -171,7 +162,7 @@ public class SigninPage extends JFrame {
                 if (isUsernameValid) {
                     emailField.grabFocus();
                 } else {
-                    usernameErrorLabel.setText("Enter username");
+                    usernameErrorLabel.setText("Username not available");
                 }
             } else {
                 if (!isAlphanumeric(usernameField.getText())) {
@@ -192,6 +183,9 @@ public class SigninPage extends JFrame {
                     }
                 }
             }
+        }  else {
+            isUsernameValid = false;
+            usernameErrorLabel.setText("Enter username");
         }
     }
 
@@ -301,6 +295,7 @@ public class SigninPage extends JFrame {
             });
             dialogPane.add(usernameField);
             usernameField.setBounds(95, 25, 230, 25);
+            usernameField.setCaretColor(Color.white);
 
             //---- usernameErrorLabel ----
             usernameErrorLabel.setForeground(Color.red);
@@ -315,6 +310,7 @@ public class SigninPage extends JFrame {
 
             //---- emailField ----
             emailField.setBackground(Color.gray);
+            emailField.setCaretColor(Color.white);
             emailField.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -332,7 +328,6 @@ public class SigninPage extends JFrame {
                 @Override
                 public void keyPressed(KeyEvent e) {
                     EmailFieldKeyReleased(e);
-                    emailFieldKeyPressed(e);
                 }
             });
             emailField.addFocusListener(new FocusAdapter() {
@@ -352,6 +347,7 @@ public class SigninPage extends JFrame {
 
             //---- passwordField ----
             passwordField.setBackground(Color.gray);
+            passwordField.setCaretColor(Color.white);
             passwordField.addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {
@@ -391,6 +387,7 @@ public class SigninPage extends JFrame {
 
             //---- confirmPasswordField ----
             confirmPasswordField.setBackground(Color.gray);
+            confirmPasswordField.setCaretColor(Color.white);
             confirmPasswordField.addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {

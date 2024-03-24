@@ -18,5 +18,50 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="JGoodies Forms" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/part 4/login-001/activation-1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/part 4/login-001/javax.mail.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/part 4/login-001/miglayout-4.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/part 4/login-001/mysql-connector-java-5.1.23-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/java-swing-login-ui-001-51d66227f7ebff58a98d7c36a7be2a9cb461da8f/part 4/login-001/TimingFramework-0.55.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
