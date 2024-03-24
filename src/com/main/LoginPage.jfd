@@ -5,84 +5,126 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 			name: "this"
+			"background": new java.awt.Color( 29, 29, 29, 255 )
+			"foreground": sfield java.awt.Color white
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 				name: "dialogPane"
+				"background": new java.awt.Color( 29, 29, 29, 255 )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 					name: "contentPanel"
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "NameField"
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 95
-						"y": 20
-						"width": 230
-						"height": 25
-					} )
+					"background": new java.awt.Color( 29, 29, 29, 255 )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "EmailField"
+						"background": sfield java.awt.Color gray
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "EmailFieldMouseClicked", true ) )
+						addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "EmailFieldMouseMoved", true ) )
+						addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "EmailFieldKeyPressed", true ) )
+						addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "EmailFieldKeyPressed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 95
-						"y": 75
+						"y": 25
 						"width": 230
 						"height": 25
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "NameLabel"
-						"text": "Name"
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 20
-						"y": 25
-						"width": 60
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "EmailLabel"
 						"text": "Email"
+						"foreground": sfield java.awt.Color white
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 20
-						"y": 80
+						"y": 30
 						"width": 63
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"width": 398
+					"width": 370
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 					name: "buttonBar"
+					"background": new java.awt.Color( 29, 29, 29, 255 )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "signinLabel"
+						"text": "Sign-in"
+						"foreground": new java.awt.Color( 250, 228, 102, 255 )
+						"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 2, false )
+						addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "signinLabelMouseMoved", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 235
+						"y": 35
+						"width": 60
+						"height": 20
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "qLabel"
+						"text": "Don't have an account?"
+						"foreground": sfield java.awt.Color white
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 95
+						"y": 40
+						"width": 140
+						"height": 15
+					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "okButton"
 						"text": "OK"
+						"background": sfield java.awt.Color gray
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "ok", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 140
-						"y": 10
+						"x": 130
+						"y": 0
 						"width": 110
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"y": 217
-					"width": 398
-					"height": 53
-				} )
-				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "PasswordField"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"width": 230
-					"height": 25
-					"x": 95
-					"y": 125
+					"y": 205
+					"width": 370
+					"height": 65
+					"x": 0
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "PasswordLabel"
 					"text": "Password"
+					"foreground": sfield java.awt.Color white
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"width": 63
 					"height": 13
 					"x": 20
-					"y": 130
+					"y": 85
+				} )
+				add( new FormComponent( "javax.swing.JPasswordField" ) {
+					name: "PasswordField"
+					"background": sfield java.awt.Color gray
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "PasswordFieldMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "PasswordFieldKeyPressed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 95
+					"y": 80
+					"width": 230
+					"height": 24
+				} )
+				add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+					name: "loginErrorLabel"
+					"foreground": sfield java.awt.Color red
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 95
+					"y": 120
+					"width": 230
+					"height": 20
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "emailErrorLabel"
+					"foreground": sfield java.awt.Color red
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 95
+					"y": 55
+					"width": 230
+					"height": 20
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"height": 269
+				"width": 370
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 400, 300 )
+			"size": new java.awt.Dimension( 370, 300 )
 		} )
 	}
 }

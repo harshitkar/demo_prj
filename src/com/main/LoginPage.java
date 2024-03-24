@@ -7,82 +7,144 @@ package com.main;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
-/**
- * @author haras
- */
+import com.jgoodies.forms.factories.*;
+
 public class LoginPage extends JFrame {
     public LoginPage() {
         initComponents();
     }
 
-    private void ok(ActionEvent e) {
+    private void login() {
+
         try {
-            String name = NameField.getText().trim();
             String email = EmailField.getText().trim();
-            String password = PasswordField.getText().trim();
+            String password = PasswordField.getText().toString();
             CheckInternetConnectivity checkInternetConnectivity = new CheckInternetConnectivity();
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                DataBaseHelper loginDataBaseHelper = new DataBaseHelper();
-                Boolean isAuth = loginDataBaseHelper.auth(email, password);
-                if (!isAuth) {
-                    System.out.println("not successful");
-                    NameField.setText("");
-                    EmailField.setText("");
-                    PasswordField.setText("");
-                } else {
-                    System.out.println("login successful");
-                }
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            DataBaseHelper loginDataBaseHelper = new DataBaseHelper();
+            Boolean isAuth = loginDataBaseHelper.auth(email, password);
+            if (!isAuth) {
+                loginErrorLabel.setText("Invalid email and password!");
+                EmailField.setText("");
+                PasswordField.setText("");
+                EmailField.grabFocus();
+            } else {
+                System.out.println("login successful");
+            }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
 
+    private void ok(ActionEvent e) {
+        login();
+    }
+
+    private void signinLabelMouseMoved(MouseEvent e) {
+        signinLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    private void EmailFieldMouseMoved(MouseEvent e) {
+        EmailField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    private void PasswordFieldMouseMoved(MouseEvent e) {
+        PasswordField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    private void EmailFieldKeyPressed(KeyEvent e) {
+        if (e.getKeyCode()==KeyEvent.VK_ENTER){
+            if(EmailField.getText().contains("@")) {
+                PasswordField.grabFocus();
+            } else {
+                emailErrorLabel.setText("Invalid email");
+            }
+        } else {
+            loginErrorLabel.setText("");
+            emailErrorLabel.setText("");
+
+        }
+    }
+
+    private void PasswordFieldKeyPressed(KeyEvent e) {
+        if (e.getKeyCode()==KeyEvent.VK_ENTER)
+            login();
+    }
+
+    private void EmailFieldMouseClicked(MouseEvent e) {
+        // TODO add your code here
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Harsh Itkar
+        DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
         dialogPane = new JPanel();
         contentPanel = new JPanel();
-        NameField = new JTextField();
         EmailField = new JTextField();
-        NameLabel = new JLabel();
         EmailLabel = new JLabel();
         buttonBar = new JPanel();
+        signinLabel = new JLabel();
+        qLabel = new JLabel();
         okButton = new JButton();
-        PasswordField = new JTextField();
         PasswordLabel = new JLabel();
+        PasswordField = new JPasswordField();
+        loginErrorLabel = compFactory.createLabel("");
+        emailErrorLabel = new JLabel();
 
         //======== this ========
+        setBackground(new Color(0x1d1d1d));
+        setForeground(Color.white);
         var contentPane = getContentPane();
         contentPane.setLayout(null);
 
         //======== dialogPane ========
         {
-            dialogPane.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
-            border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER
-            , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font
-            .BOLD ,12 ), java. awt. Color. red) ,dialogPane. getBorder( )) ); dialogPane. addPropertyChangeListener (
-            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r"
-            .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            dialogPane.setBackground(new Color(0x1d1d1d));
+            dialogPane.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.
+            EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER,javax.swing
+            .border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font.BOLD,12),
+            java.awt.Color.red),dialogPane. getBorder()));dialogPane. addPropertyChangeListener(new java.beans.PropertyChangeListener()
+            {@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))
+            throw new RuntimeException();}});
             dialogPane.setLayout(null);
 
             //======== contentPanel ========
             {
+                contentPanel.setBackground(new Color(0x1d1d1d));
                 contentPanel.setLayout(null);
-                contentPanel.add(NameField);
-                NameField.setBounds(95, 20, 230, 25);
-                contentPanel.add(EmailField);
-                EmailField.setBounds(95, 75, 230, 25);
 
-                //---- NameLabel ----
-                NameLabel.setText("Name");
-                contentPanel.add(NameLabel);
-                NameLabel.setBounds(20, 25, 60, NameLabel.getPreferredSize().height);
+                //---- EmailField ----
+                EmailField.setBackground(Color.gray);
+                EmailField.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        EmailFieldMouseClicked(e);
+                    }
+                });
+                EmailField.addMouseMotionListener(new MouseMotionAdapter() {
+                    @Override
+                    public void mouseMoved(MouseEvent e) {
+                        EmailFieldMouseMoved(e);
+                    }
+                });
+                EmailField.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        EmailFieldKeyPressed(e);
+                        EmailFieldKeyPressed(e);
+                    }
+                });
+                contentPanel.add(EmailField);
+                EmailField.setBounds(95, 25, 230, 25);
 
                 //---- EmailLabel ----
                 EmailLabel.setText("Email");
+                EmailLabel.setForeground(Color.white);
                 contentPanel.add(EmailLabel);
-                EmailLabel.setBounds(20, 80, 63, EmailLabel.getPreferredSize().height);
+                EmailLabel.setBounds(20, 30, 63, EmailLabel.getPreferredSize().height);
 
                 {
                     // compute preferred size
@@ -100,17 +162,38 @@ public class LoginPage extends JFrame {
                 }
             }
             dialogPane.add(contentPanel);
-            contentPanel.setBounds(0, 0, 398, contentPanel.getPreferredSize().height);
+            contentPanel.setBounds(0, 0, 370, contentPanel.getPreferredSize().height);
 
             //======== buttonBar ========
             {
+                buttonBar.setBackground(new Color(0x1d1d1d));
                 buttonBar.setLayout(null);
+
+                //---- signinLabel ----
+                signinLabel.setText("Sign-in");
+                signinLabel.setForeground(new Color(0xfae466));
+                signinLabel.setFont(signinLabel.getFont().deriveFont(signinLabel.getFont().getSize() + 2f));
+                signinLabel.addMouseMotionListener(new MouseMotionAdapter() {
+                    @Override
+                    public void mouseMoved(MouseEvent e) {
+                        signinLabelMouseMoved(e);
+                    }
+                });
+                buttonBar.add(signinLabel);
+                signinLabel.setBounds(235, 35, 60, 20);
+
+                //---- qLabel ----
+                qLabel.setText("Don't have an account?");
+                qLabel.setForeground(Color.white);
+                buttonBar.add(qLabel);
+                qLabel.setBounds(95, 40, 140, 15);
 
                 //---- okButton ----
                 okButton.setText("OK");
+                okButton.setBackground(Color.gray);
                 okButton.addActionListener(e -> ok(e));
                 buttonBar.add(okButton);
-                okButton.setBounds(140, 10, 110, okButton.getPreferredSize().height);
+                okButton.setBounds(130, 0, 110, okButton.getPreferredSize().height);
 
                 {
                     // compute preferred size
@@ -128,14 +211,40 @@ public class LoginPage extends JFrame {
                 }
             }
             dialogPane.add(buttonBar);
-            buttonBar.setBounds(0, 217, 398, 53);
-            dialogPane.add(PasswordField);
-            PasswordField.setBounds(95, 125, 230, 25);
+            buttonBar.setBounds(0, 205, 370, 65);
 
             //---- PasswordLabel ----
             PasswordLabel.setText("Password");
+            PasswordLabel.setForeground(Color.white);
             dialogPane.add(PasswordLabel);
-            PasswordLabel.setBounds(20, 130, 63, 13);
+            PasswordLabel.setBounds(20, 85, 63, 13);
+
+            //---- PasswordField ----
+            PasswordField.setBackground(Color.gray);
+            PasswordField.addMouseMotionListener(new MouseMotionAdapter() {
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    PasswordFieldMouseMoved(e);
+                }
+            });
+            PasswordField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    PasswordFieldKeyPressed(e);
+                }
+            });
+            dialogPane.add(PasswordField);
+            PasswordField.setBounds(95, 80, 230, 24);
+
+            //---- loginErrorLabel ----
+            loginErrorLabel.setForeground(Color.red);
+            dialogPane.add(loginErrorLabel);
+            loginErrorLabel.setBounds(95, 120, 230, 20);
+
+            //---- emailErrorLabel ----
+            emailErrorLabel.setForeground(Color.red);
+            dialogPane.add(emailErrorLabel);
+            emailErrorLabel.setBounds(95, 55, 230, 20);
 
             {
                 // compute preferred size
@@ -153,7 +262,7 @@ public class LoginPage extends JFrame {
             }
         }
         contentPane.add(dialogPane);
-        dialogPane.setBounds(0, 0, dialogPane.getPreferredSize().width, 269);
+        dialogPane.setBounds(0, 0, 370, 269);
 
         {
             // compute preferred size
@@ -178,13 +287,15 @@ public class LoginPage extends JFrame {
     // Generated using JFormDesigner Evaluation license - Harsh Itkar
     private JPanel dialogPane;
     private JPanel contentPanel;
-    private JTextField NameField;
     private JTextField EmailField;
-    private JLabel NameLabel;
     private JLabel EmailLabel;
     private JPanel buttonBar;
+    private JLabel signinLabel;
+    private JLabel qLabel;
     private JButton okButton;
-    private JTextField PasswordField;
     private JLabel PasswordLabel;
+    private JPasswordField PasswordField;
+    private JLabel loginErrorLabel;
+    private JLabel emailErrorLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
