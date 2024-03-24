@@ -1,0 +1,226 @@
+JFDML JFormDesigner: "8.2.1.0.348" Java: "17.0.10" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "this"
+			"background": new java.awt.Color( 29, 29, 29, 255 )
+			"foreground": sfield java.awt.Color white
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+				name: "dialogPane"
+				"background": new java.awt.Color( 29, 29, 29, 255 )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+					name: "contentPanel"
+					"background": new java.awt.Color( 29, 29, 29, 255 )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 370
+				} )
+				add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+					name: "emailErrorLabel"
+					"foreground": sfield java.awt.Color red
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 95
+					"y": 110
+					"width": 230
+					"height": 20
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "usernameLabel"
+					"text": "Username"
+					"foreground": sfield java.awt.Color white
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 63
+					"x": 20
+					"y": 30
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "usernameField"
+					"background": sfield java.awt.Color gray
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "EmailFieldMouseClicked", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "EmailFieldMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "EmailFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "EmailFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "usernameFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "usernameFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "usernameFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "usernameFieldFocusLost", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "usernameFieldMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyTyped", "usernameFieldKeyTyped", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyReleased", "usernameFieldKeyReleased", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 230
+					"height": 25
+					"x": 95
+					"y": 25
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "usernameErrorLabel"
+					"foreground": sfield java.awt.Color red
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 230
+					"height": 20
+					"x": 95
+					"y": 55
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "emailLabel"
+					"text": "Email"
+					"foreground": sfield java.awt.Color white
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 63
+					"x": 20
+					"y": 85
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "emailField"
+					"background": sfield java.awt.Color gray
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "EmailFieldMouseClicked", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "EmailFieldMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "EmailFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "EmailFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "emailFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "usernameFieldFocusLost", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "emailFieldMouseMoved", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 230
+					"height": 25
+					"x": 95
+					"y": 80
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "passwordLabel"
+					"text": "Password"
+					"foreground": sfield java.awt.Color white
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 63
+					"x": 20
+					"y": 140
+				} )
+				add( new FormComponent( "javax.swing.JPasswordField" ) {
+					name: "passwordField"
+					"background": sfield java.awt.Color gray
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "PasswordFieldMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "PasswordFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "usernameFieldFocusLost", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 230
+					"height": 24
+					"x": 95
+					"y": 135
+				} )
+				add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+					name: "signinErrorLabel"
+					"foreground": sfield java.awt.Color red
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 230
+					"height": 20
+					"x": 95
+					"y": 165
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "usernameValidLabel"
+					"foreground": sfield java.awt.Color green
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 230
+					"height": 20
+					"x": 95
+					"y": 55
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "passwordLabel2"
+					"text": "Confirm"
+					"foreground": sfield java.awt.Color white
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 63
+					"height": 13
+					"x": 20
+					"y": 190
+				} )
+				add( new FormComponent( "javax.swing.JPasswordField" ) {
+					name: "confirmPasswordField"
+					"background": sfield java.awt.Color gray
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "PasswordFieldMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "PasswordFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "confirmPasswordFieldKeyPressed", true ) )
+					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "usernameFieldFocusLost", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "confirmPasswordFieldMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "confirmPasswordFieldMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "confirmPasswordFieldMouseMoved", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 230
+					"height": 24
+					"x": 95
+					"y": 190
+				} )
+				add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+					name: "confirmSigninErrorLabel"
+					"foreground": sfield java.awt.Color red
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 230
+					"height": 20
+					"x": 95
+					"y": 220
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "passwordLabel3"
+					"text": "Password"
+					"foreground": sfield java.awt.Color white
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 63
+					"x": 20
+					"y": 205
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"height": 245
+				"width": 370
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+				name: "buttonBar"
+				"background": new java.awt.Color( 29, 29, 29, 255 )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "signinLabel"
+					"text": "Login"
+					"foreground": new java.awt.Color( 250, 228, 102, 255 )
+					"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 2, false )
+					"background": new java.awt.Color( 29, 29, 29, 255 )
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "signinLabelMouseMoved", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "signinLabelMousePressed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 235
+					"y": 35
+					"width": 60
+					"height": 20
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "qLabel"
+					"text": "Already have an account?"
+					"foreground": sfield java.awt.Color white
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 85
+					"y": 40
+					"width": 150
+					"height": 15
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "okButton"
+					"text": "OK"
+					"background": sfield java.awt.Color gray
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "ok", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 130
+					"y": 10
+					"width": 110
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"y": 245
+				"width": 370
+				"height": 65
+				"x": 0
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 370, 340 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

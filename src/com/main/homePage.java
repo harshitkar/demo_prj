@@ -1,20 +1,16 @@
 package com.main;
 
-import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
-import java.awt.*;
+import com.main.form.LoginPage;
+import com.main.form.SigninPage;
 
-public class homePage {
-    private JButton okButton;
-    private JPanel dialogPane;
+import javax.swing.*;
+
+public class homePage extends JFrame {
 
     public static void main(String[] args) {
-        UIManager.put("InternalFrame.activeTitleBackground", new ColorUIResource(Color.black ));
-        UIManager.put("InternalFrame.activeTitleForeground", new ColorUIResource(Color.WHITE));
-        UIManager.put("InternalFrame.titleFont", new Font("Dialog", Font.PLAIN, 11));
-        LoginPage frame = new LoginPage();
-        frame.setSize(384,305);
-        frame.setResizable(false);
-        frame.setVisible(true);
+        LoginPage loginFrame = new LoginPage();
+        loginFrame.setSize(384, 305);
+        loginFrame.setResizable(false);
+        loginFrame.setVisible(true);
     }
 }

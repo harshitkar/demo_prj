@@ -21,7 +21,7 @@ public class DataBaseHelper {
     }
 
     public Boolean auth(String email, String password) {
-        String expectedPassword;
+        String expectedPassword = new String();
         try{
             String query = "SELECT * FROM users WHERE email = '" + email +"';";
             con = this.connect();
@@ -30,10 +30,46 @@ public class DataBaseHelper {
             if(rs.next()){
                 expectedPassword = rs.getString("password");
             }
-            else{
-                return false;
-            }
             if(password.equals(expectedPassword)) {
+                return true;
+            }
+        } catch(HeadlessException | SQLException ex){
+            System.out.println("database error");
+        }finally {
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean addUser(String username, String email, String password) {
+        try{
+            String query = "insert into users values('" + email +"', '" + username + "', '" + password + "');";
+            con = this.connect();
+            pst = con.prepareStatement(query);
+            pst.executeUpdate();
+        } catch(HeadlessException | SQLException ex){
+            System.out.println("database error");
+        }finally {
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    public boolean isUsernameAvailable(String username) {
+        try{
+            String query = "SELECT * FROM users WHERE name = '" + username +"';";
+            con = this.connect();
+            pst = con.prepareStatement(query);
+            rs = pst.executeQuery();
+            if(!rs.next()){
                 return true;
             }
         } catch(HeadlessException | SQLException ex){

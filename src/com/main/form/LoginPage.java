@@ -2,78 +2,115 @@
  * Created by JFormDesigner on Sun Mar 17 10:15:01 IST 2024
  */
 
-package com.main;
+package com.main.form;
 
-import java.awt.event.*;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+import com.main.DataBaseHelper;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-
-import com.jgoodies.forms.factories.*;
+import java.awt.event.*;
 
 public class LoginPage extends JFrame {
+
+    boolean isEmailValid;
+
+    String currentUserEmail;
+
+    private MouseEvent e;
+
     public LoginPage() {
+        this.isEmailValid = false;
+        this.currentUserEmail = null;
         initComponents();
     }
 
-    private void login() {
+    public String getCurrentUserEmail() {
+        return this.currentUserEmail;
+    }
 
+    private void login() {
         try {
             String email = EmailField.getText().trim();
-            String password = PasswordField.getText().toString();
-            CheckInternetConnectivity checkInternetConnectivity = new CheckInternetConnectivity();
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            DataBaseHelper loginDataBaseHelper = new DataBaseHelper();
-            Boolean isAuth = loginDataBaseHelper.auth(email, password);
-            if (!isAuth) {
-                loginErrorLabel.setText("Invalid email and password!");
-                EmailField.setText("");
-                PasswordField.setText("");
-                EmailField.grabFocus();
-            } else {
-                System.out.println("login successful");
+            String password = PasswordField.getText();
+            if(email.isEmpty() || password.isEmpty()) {
+                loginErrorLabel.setText("Enter email and password!");
+                return;
             }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                DataBaseHelper loginDataBaseHelper = new DataBaseHelper();
+                Boolean isAuth = loginDataBaseHelper.auth(email, password);
+                if (!isAuth) {
+                    loginErrorLabel.setText("Invalid email and password!");
+                    EmailField.setText("");
+                    PasswordField.setText("");
+                    EmailField.grabFocus();
+                } else {
+                    System.out.println("login successful");
+                    currentUserEmail = email;
+                }
+            } catch(Exception ex) {
+                throw new RuntimeException(ex);
+            }
     }
 
-    private void ok(ActionEvent e) {
-        login();
+    private void ok(ActionEvent ignoredE) {
+        if(isEmailValid)
+            this.login();
     }
 
-    private void signinLabelMouseMoved(MouseEvent e) {
+    private void signinLabelMouseMoved(MouseEvent ignoredE) {
         signinLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
-    private void EmailFieldMouseMoved(MouseEvent e) {
+    private void EmailFieldMouseMoved(MouseEvent ignoredE) {
+        this.e = ignoredE;
         EmailField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
-    private void PasswordFieldMouseMoved(MouseEvent e) {
+    private void PasswordFieldMouseMoved(MouseEvent ignoredE) {
         PasswordField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     private void EmailFieldKeyPressed(KeyEvent e) {
-        if (e.getKeyCode()==KeyEvent.VK_ENTER){
-            if(EmailField.getText().contains("@")) {
+        if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+            if(EmailField.getText().isEmpty()) {
+                emailErrorLabel.setText("Enter an Email");
+            } else if(EmailField.getText().contains("@")) {
+                isEmailValid = true;
                 PasswordField.grabFocus();
             } else {
-                emailErrorLabel.setText("Invalid email");
+                    emailErrorLabel.setText("Invalid email");
             }
         } else {
             loginErrorLabel.setText("");
             emailErrorLabel.setText("");
-
         }
     }
 
     private void PasswordFieldKeyPressed(KeyEvent e) {
-        if (e.getKeyCode()==KeyEvent.VK_ENTER)
-            login();
+        emailErrorLabel.setText("");
+        if (e.getKeyCode()==KeyEvent.VK_ENTER && isEmailValid){
+            this.login();
+
+        } else if(!isEmailValid) {
+            emailErrorLabel.setText("Enter valid email");
+        }
+    }
+
+    private void signinLabelMousePressed(MouseEvent e) {
+        SigninPage signinFrame = new SigninPage();
+        signinFrame.setSize(370, 346);
+        signinFrame.setResizable(false);
+        signinFrame.setVisible(true);
+        this.dispose();
     }
 
     private void EmailFieldMouseClicked(MouseEvent e) {
+        // TODO add your code here
+    }
+
+    private void signinLabelMouseClicked(MouseEvent e) {
         // TODO add your code here
     }
 
@@ -103,12 +140,12 @@ public class LoginPage extends JFrame {
         //======== dialogPane ========
         {
             dialogPane.setBackground(new Color(0x1d1d1d));
-            dialogPane.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.
-            EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER,javax.swing
-            .border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font.BOLD,12),
-            java.awt.Color.red),dialogPane. getBorder()));dialogPane. addPropertyChangeListener(new java.beans.PropertyChangeListener()
-            {@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))
-            throw new RuntimeException();}});
+            dialogPane.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border
+            . EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border. TitledBorder. CENTER, javax
+            . swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,
+            12 ), java. awt. Color. red) ,dialogPane. getBorder( )) ); dialogPane. addPropertyChangeListener (new java. beans
+            . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .
+            getPropertyName () )) throw new RuntimeException( ); }} );
             dialogPane.setLayout(null);
 
             //======== contentPanel ========
@@ -177,6 +214,18 @@ public class LoginPage extends JFrame {
                     @Override
                     public void mouseMoved(MouseEvent e) {
                         signinLabelMouseMoved(e);
+                    }
+                });
+                signinLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        signinLabelMouseClicked(e);
+                        signinLabelMouseClicked(e);
+                        signinLabelMouseClicked(e);
+                    }
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        signinLabelMousePressed(e);
                     }
                 });
                 buttonBar.add(signinLabel);
