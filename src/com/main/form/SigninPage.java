@@ -1,3 +1,4 @@
+
 /*
  * Created by JFormDesigner on Sun Mar 24 09:21:23 IST 2024
  */
@@ -18,10 +19,13 @@ public class SigninPage extends JFrame {
 
     boolean isEmailValid;
 
+    boolean isUsernameValid;
+
     String currentUserEmail;
 
     public SigninPage() {
         isEmailValid = false;
+        isUsernameValid = false;
         currentUserEmail = null;
         initComponents();
     }
@@ -45,18 +49,21 @@ public class SigninPage extends JFrame {
         } else {
             if (dataBaseHelper.addUser(username, email, password)) {
                 System.out.println("Signin successful");
+                currentUserEmail = email;
+                //notes app home page
+                //pass current user id(currentUserEmailId)
             } else {
                 confirmSigninErrorLabel.setText("Unable to create an account");
             }
         }
     }
 
-    public boolean isAlphabetical(String str)
+    public boolean isAlphanumeric(String str)
     {
         char[] charArray = str.toCharArray();
         for(char c:charArray)
         {
-            if (!(Character.isLetter(c) || c == ' '))
+            if (!Character.isLetterOrDigit(c))
                 return false;
         }
         return true;
@@ -67,7 +74,6 @@ public class SigninPage extends JFrame {
     }
 
     private void EmailFieldKeyReleased(KeyEvent e) {
-        emailErrorLabel.setText("");
         if (e.getKeyCode()==KeyEvent.VK_ENTER){
             String email = emailField.getText();
             if(email.isEmpty()) {
@@ -81,6 +87,7 @@ public class SigninPage extends JFrame {
         } else {
             signinErrorLabel.setText("");
             emailErrorLabel.setText("");
+
         }
     }
 
@@ -89,7 +96,7 @@ public class SigninPage extends JFrame {
     }
 
     private void ok(ActionEvent e) {
-        if(isEmailValid)
+        if(isEmailValid && isUsernameValid)
             this.signin();
     }
 
@@ -103,6 +110,8 @@ public class SigninPage extends JFrame {
             confirmPasswordField.grabFocus();
         } else if(!isEmailValid) {
             emailErrorLabel.setText("Enter valid email");
+        } else if (!isUsernameValid) {
+            usernameErrorLabel.setText("Enter valid username");
         }
     }
 
@@ -132,9 +141,12 @@ public class SigninPage extends JFrame {
 
     private void usernameFieldFocusLost() {
         emailErrorLabel.setText("");
+        usernameValidLabel.setText("");
     }
 
-    private void confirmPasswordFieldMouseMoved() {
+    private void confirmPasswordFieldMouseMoved(
+
+    ) {
         confirmPasswordField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
@@ -148,13 +160,35 @@ public class SigninPage extends JFrame {
 
     private void usernameFieldKeyReleased(KeyEvent e) {
         usernameErrorLabel.setText("");
+        usernameValidLabel.setText("");
         if(!usernameField.getText().isEmpty()) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (isUsernameValid) {
                     emailField.grabFocus();
-            } else if (!isAlphabetical(usernameField.getText())) {
-                    usernameErrorLabel.setText("Enter valid name");
+                } else {
+                    usernameErrorLabel.setText("Username not available");
+                }
+            } else {
+                if (!isAlphanumeric(usernameField.getText())) {
+                    isUsernameValid = false;
+                    usernameErrorLabel.setText("username should be alphanumeric");
+                } else {
+                    try {
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                    } catch (ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    DataBaseHelper dataBaseHelper = new DataBaseHelper();
+                    isUsernameValid = dataBaseHelper.isUsernameAvailable(usernameField.getText());
+                    if (isUsernameValid) {
+                        usernameValidLabel.setText("Username Available");
+                    } else {
+                        usernameErrorLabel.setText("Username not available");
+                    }
+                }
             }
         }  else {
+            isUsernameValid = false;
             usernameErrorLabel.setText("Enter username");
         }
     }
@@ -255,7 +289,7 @@ public class SigninPage extends JFrame {
                 public void keyReleased(KeyEvent e) {
                     usernameFieldKeyReleased(e);
                 }
-                });
+            });
             usernameField.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusLost(FocusEvent e) {

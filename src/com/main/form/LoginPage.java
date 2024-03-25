@@ -17,16 +17,10 @@ public class LoginPage extends JFrame {
 
     String currentUserEmail;
 
-    private MouseEvent e;
-
     public LoginPage() {
         this.isEmailValid = false;
         this.currentUserEmail = null;
         initComponents();
-    }
-
-    public String getCurrentUserEmail() {
-        return this.currentUserEmail;
     }
 
     private void login() {
@@ -48,6 +42,8 @@ public class LoginPage extends JFrame {
                 } else {
                     System.out.println("login successful");
                     currentUserEmail = email;
+                    //notes app home page
+                    //pass current user id(currentUserEmailId)
                 }
             } catch(Exception ex) {
                 throw new RuntimeException(ex);
@@ -64,7 +60,6 @@ public class LoginPage extends JFrame {
     }
 
     private void EmailFieldMouseMoved(MouseEvent ignoredE) {
-        this.e = ignoredE;
         EmailField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
@@ -98,7 +93,7 @@ public class LoginPage extends JFrame {
         }
     }
 
-    private void signinLabelMousePressed(MouseEvent e) {
+    private void signinLabelMousePressed() {
         SigninPage signinFrame = new SigninPage();
         signinFrame.setSize(370, 346);
         signinFrame.setResizable(false);
@@ -106,7 +101,7 @@ public class LoginPage extends JFrame {
         this.dispose();
     }
 
-    private void EmailFieldMouseClicked(MouseEvent e) {
+    private void EmailFieldMouseClicked() {
         // TODO add your code here
     }
 
@@ -140,12 +135,9 @@ public class LoginPage extends JFrame {
         //======== dialogPane ========
         {
             dialogPane.setBackground(new Color(0x1d1d1d));
-            dialogPane.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder
-            ( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing. border
-            . TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,dialogPane. getBorder( )) ); dialogPane. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void
-            propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
-            ; }} );
+            dialogPane. addPropertyChangeListener (new java. beans. PropertyChangeListener( )
+            { @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .equals (e .getPropertyName () ))
+            throw new RuntimeException( ); }} );
             dialogPane.setLayout(null);
 
             //======== contentPanel ========
@@ -158,7 +150,7 @@ public class LoginPage extends JFrame {
                 EmailField.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        EmailFieldMouseClicked(e);
+                        EmailFieldMouseClicked();
                     }
                 });
                 EmailField.addMouseMotionListener(new MouseMotionAdapter() {
@@ -225,7 +217,7 @@ public class LoginPage extends JFrame {
                     }
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        signinLabelMousePressed(e);
+                        signinLabelMousePressed();
                     }
                 });
                 buttonBar.add(signinLabel);
