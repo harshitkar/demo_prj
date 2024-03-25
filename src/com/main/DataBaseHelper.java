@@ -60,27 +60,6 @@ public class DataBaseHelper {
         return true;
     }
 
-    public boolean isUsernameAvailable(String username) {
-        try{
-            String query = "SELECT * FROM users WHERE name = '" + username +"';";
-            con = dataBaseConnector.connect();
-            pst = con.prepareStatement(query);
-            rs = pst.executeQuery();
-            if(!rs.next()){
-                return true;
-            }
-        } catch(HeadlessException | SQLException ex){
-            System.out.println("database error");
-        }finally {
-            try {
-                if(con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
     public boolean isEmailRegistered(String email) {
         try{
             String query = "SELECT * FROM users WHERE email = '" + email +"';";
