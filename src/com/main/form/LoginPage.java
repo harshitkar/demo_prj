@@ -105,7 +105,7 @@ public class LoginPage extends JFrame {
         // TODO add your code here
     }
 
-    private void signinLabelMouseClicked(MouseEvent e) {
+    private void signinLabelMouseClicked() {
         // TODO add your code here
     }
 
@@ -113,15 +113,17 @@ public class LoginPage extends JFrame {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Harsh Itkar
         DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
-        dialogPane = new JPanel();
-        contentPanel = new JPanel();
+        // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Harsh Itkar
+        JPanel dialogPane = new JPanel();
+        JPanel contentPanel = new JPanel();
         EmailField = new JTextField();
-        EmailLabel = new JLabel();
-        buttonBar = new JPanel();
+        JLabel emailLabel = new JLabel();
+        JPanel buttonBar = new JPanel();
         signinLabel = new JLabel();
-        qLabel = new JLabel();
-        okButton = new JButton();
-        PasswordLabel = new JLabel();
+        JLabel qLabel = new JLabel();
+        JButton okButton = new JButton();
+        JLabel passwordLabel = new JLabel();
         PasswordField = new JPasswordField();
         loginErrorLabel = compFactory.createLabel("");
         emailErrorLabel = new JLabel();
@@ -135,9 +137,8 @@ public class LoginPage extends JFrame {
         //======== dialogPane ========
         {
             dialogPane.setBackground(new Color(0x1d1d1d));
-            dialogPane. addPropertyChangeListener (new java. beans. PropertyChangeListener( )
-            { @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .equals (e .getPropertyName () ))
-            throw new RuntimeException( ); }} );
+            dialogPane. addPropertyChangeListener (e-> {if ("border" .equals (e .getPropertyName () ))
+            throw new RuntimeException( ); } );
             dialogPane.setLayout(null);
 
             //======== contentPanel ========
@@ -170,10 +171,10 @@ public class LoginPage extends JFrame {
                 EmailField.setBounds(95, 25, 230, 25);
 
                 //---- EmailLabel ----
-                EmailLabel.setText("Email");
-                EmailLabel.setForeground(Color.white);
-                contentPanel.add(EmailLabel);
-                EmailLabel.setBounds(20, 30, 63, EmailLabel.getPreferredSize().height);
+                emailLabel.setText("Email");
+                emailLabel.setForeground(Color.white);
+                contentPanel.add(emailLabel);
+                emailLabel.setBounds(20, 30, 63, emailLabel.getPreferredSize().height);
 
                 {
                     // compute preferred size
@@ -211,9 +212,9 @@ public class LoginPage extends JFrame {
                 signinLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        signinLabelMouseClicked(e);
-                        signinLabelMouseClicked(e);
-                        signinLabelMouseClicked(e);
+                        signinLabelMouseClicked();
+                        signinLabelMouseClicked();
+                        signinLabelMouseClicked();
                     }
                     @Override
                     public void mousePressed(MouseEvent e) {
@@ -232,7 +233,7 @@ public class LoginPage extends JFrame {
                 //---- okButton ----
                 okButton.setText("OK");
                 okButton.setBackground(Color.gray);
-                okButton.addActionListener(e -> ok(e));
+                okButton.addActionListener(this::ok);
                 buttonBar.add(okButton);
                 okButton.setBounds(130, 0, 110, okButton.getPreferredSize().height);
 
@@ -255,10 +256,10 @@ public class LoginPage extends JFrame {
             buttonBar.setBounds(0, 205, 370, 65);
 
             //---- PasswordLabel ----
-            PasswordLabel.setText("Password");
-            PasswordLabel.setForeground(Color.white);
-            dialogPane.add(PasswordLabel);
-            PasswordLabel.setBounds(20, 85, 63, 13);
+            passwordLabel.setText("Password");
+            passwordLabel.setForeground(Color.white);
+            dialogPane.add(passwordLabel);
+            passwordLabel.setBounds(20, 85, 63, 13);
 
             //---- PasswordField ----
             PasswordField.setBackground(Color.gray);
@@ -324,17 +325,8 @@ public class LoginPage extends JFrame {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Harsh Itkar
-    private JPanel dialogPane;
-    private JPanel contentPanel;
     private JTextField EmailField;
-    private JLabel EmailLabel;
-    private JPanel buttonBar;
     private JLabel signinLabel;
-    private JLabel qLabel;
-    private JButton okButton;
-    private JLabel PasswordLabel;
     private JPasswordField PasswordField;
     private JLabel loginErrorLabel;
     private JLabel emailErrorLabel;
