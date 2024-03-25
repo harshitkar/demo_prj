@@ -1,11 +1,10 @@
 package com.main;
 
 import com.main.form.LoginPage;
-import com.main.form.SigninPage;
 
 import javax.swing.*;
 
-public class homePage extends JFrame {
+public class Main extends JFrame {
 
     public static void main(String[] args) {
         LoginPage loginFrame = new LoginPage();
