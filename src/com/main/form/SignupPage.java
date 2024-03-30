@@ -6,7 +6,7 @@
 package com.main.form;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-import com.main.DataBaseHelper;
+import com.main.DAO.DataBaseHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,27 +15,24 @@ import java.awt.event.*;
 /**
  * @author haras
  */
-public class SigninPage extends JFrame {
+public class SignupPage extends JFrame {
 
     boolean isEmailValid;
 
     boolean isUsernameValid;
 
-    String currentUserEmail;
-
-    public SigninPage() {
+    public SignupPage() {
         isEmailValid = false;
         isUsernameValid = false;
-        currentUserEmail = null;
         initComponents();
     }
 
-    private void signin() {
+    private void signup() {
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText();
         if(email.isEmpty() || password.isEmpty()) {
-            confirmSigninErrorLabel.setText("Enter all details");
+            confirmSignupErrorLabel.setText("Enter all details");
             return;
         }
         try {
@@ -48,12 +45,14 @@ public class SigninPage extends JFrame {
             emailErrorLabel.setText("Email id already registered");
         } else {
             if (dataBaseHelper.addUser(username, email, password)) {
-                System.out.println("Signin successful");
-                currentUserEmail = email;
-                //notes app home page
-                //pass current user id(currentUserEmailId)
+                System.out.println("Signup successful");
+                GroupListPage groupsPage = new GroupListPage(username);
+                groupsPage.setSize(935, 585);
+                groupsPage.setResizable(false);
+                groupsPage.setVisible(true);
+                this.dispose();
             } else {
-                confirmSigninErrorLabel.setText("Unable to create an account");
+                confirmSignupErrorLabel.setText("Unable to create an account");
             }
         }
     }
@@ -85,19 +84,19 @@ public class SigninPage extends JFrame {
                 emailErrorLabel.setText("Invalid email");
             }
         } else {
-            signinErrorLabel.setText("");
+            signupErrorLabel.setText("");
             emailErrorLabel.setText("");
 
         }
     }
 
-    private void signinLabelMouseMoved() {
-        signinLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    private void signupLabelMouseMoved() {
+        signupLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     private void ok(ActionEvent e) {
         if(isEmailValid && isUsernameValid)
-            this.signin();
+            this.signup();
     }
 
     private void PasswordFieldMouseMoved() {
@@ -115,7 +114,7 @@ public class SigninPage extends JFrame {
         }
     }
 
-    private void signinLabelMousePressed() {
+    private void signupLabelMousePressed() {
         LoginPage loginPage = new LoginPage();
         loginPage.setSize(384, 305);
         loginPage.setResizable(false);
@@ -128,12 +127,12 @@ public class SigninPage extends JFrame {
     }
 
     private void confirmPasswordFieldKeyPressed(KeyEvent e) {
-        confirmSigninErrorLabel.setText("");
+        confirmSignupErrorLabel.setText("");
         if(e.getKeyCode()==KeyEvent.VK_ENTER) {
             if(confirmPasswordField.getText().equals(passwordField.getText())) {
-                this.signin();
+                this.signup();
             } else {
-                confirmSigninErrorLabel.setText("Password doesn't match");
+                confirmSignupErrorLabel.setText("Password doesn't match");
                 confirmPasswordField.setText("");
             }
         }
@@ -209,14 +208,14 @@ public class SigninPage extends JFrame {
         emailField = new JTextField();
         JLabel passwordLabel = new JLabel();
         passwordField = new JPasswordField();
-        signinErrorLabel = compFactory.createLabel("");
+        signupErrorLabel = compFactory.createLabel("");
         usernameValidLabel = new JLabel();
         JLabel passwordLabel2 = new JLabel();
         confirmPasswordField = new JPasswordField();
-        confirmSigninErrorLabel = compFactory.createLabel("");
+        confirmSignupErrorLabel = compFactory.createLabel("");
         JLabel passwordLabel3 = new JLabel();
         JPanel buttonBar = new JPanel();
-        signinLabel = new JLabel();
+        signupLabel = new JLabel();
         JLabel qLabel = new JLabel();
         JButton okButton = new JButton();
 
@@ -372,10 +371,10 @@ public class SigninPage extends JFrame {
             dialogPane.add(passwordField);
             passwordField.setBounds(95, 135, 230, 24);
 
-            //---- signinErrorLabel ----
-            signinErrorLabel.setForeground(Color.red);
-            dialogPane.add(signinErrorLabel);
-            signinErrorLabel.setBounds(95, 165, 230, 20);
+            //---- signupErrorLabel ----
+            signupErrorLabel.setForeground(Color.red);
+            dialogPane.add(signupErrorLabel);
+            signupErrorLabel.setBounds(95, 165, 230, 20);
 
             //---- usernameValidLabel ----
             usernameValidLabel.setForeground(Color.green);
@@ -416,10 +415,10 @@ public class SigninPage extends JFrame {
             dialogPane.add(confirmPasswordField);
             confirmPasswordField.setBounds(95, 190, 230, 24);
 
-            //---- confirmSigninErrorLabel ----
-            confirmSigninErrorLabel.setForeground(Color.red);
-            dialogPane.add(confirmSigninErrorLabel);
-            confirmSigninErrorLabel.setBounds(95, 220, 230, 20);
+            //---- confirmSignupErrorLabel ----
+            confirmSignupErrorLabel.setForeground(Color.red);
+            dialogPane.add(confirmSignupErrorLabel);
+            confirmSignupErrorLabel.setBounds(95, 220, 230, 20);
 
             //---- passwordLabel3 ----
             passwordLabel3.setText("Password");
@@ -450,25 +449,25 @@ public class SigninPage extends JFrame {
             buttonBar.setBackground(new Color(0x1d1d1d));
             buttonBar.setLayout(null);
 
-            //---- signinLabel ----
-            signinLabel.setText("Login");
-            signinLabel.setForeground(new Color(0xfae466));
-            signinLabel.setFont(signinLabel.getFont().deriveFont(signinLabel.getFont().getSize() + 2f));
-            signinLabel.setBackground(new Color(0x1d1d1d));
-            signinLabel.addMouseMotionListener(new MouseMotionAdapter() {
+            //---- signupLabel ----
+            signupLabel.setText("Login");
+            signupLabel.setForeground(new Color(0xfae466));
+            signupLabel.setFont(signupLabel.getFont().deriveFont(signupLabel.getFont().getSize() + 2f));
+            signupLabel.setBackground(new Color(0x1d1d1d));
+            signupLabel.addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {
-                    signinLabelMouseMoved();
+                    signupLabelMouseMoved();
                 }
             });
-            signinLabel.addMouseListener(new MouseAdapter() {
+            signupLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    signinLabelMousePressed();
+                    signupLabelMousePressed();
                 }
             });
-            buttonBar.add(signinLabel);
-            signinLabel.setBounds(235, 35, 60, 20);
+            buttonBar.add(signupLabel);
+            signupLabel.setBounds(235, 35, 60, 20);
 
             //---- qLabel ----
             qLabel.setText("Already have an account?");
@@ -525,10 +524,10 @@ public class SigninPage extends JFrame {
     private JLabel usernameErrorLabel;
     private JTextField emailField;
     private JPasswordField passwordField;
-    private JLabel signinErrorLabel;
+    private JLabel signupErrorLabel;
     private JLabel usernameValidLabel;
     private JPasswordField confirmPasswordField;
-    private JLabel confirmSigninErrorLabel;
-    private JLabel signinLabel;
+    private JLabel confirmSignupErrorLabel;
+    private JLabel signupLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

@@ -5,7 +5,7 @@
 package com.main.form;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-import com.main.DataBaseHelper;
+import com.main.DAO.DataBaseHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,11 +15,8 @@ public class LoginPage extends JFrame {
 
     boolean isEmailValid;
 
-    String currentUserEmail;
-
     public LoginPage() {
         this.isEmailValid = false;
-        this.currentUserEmail = null;
         initComponents();
     }
 
@@ -41,9 +38,11 @@ public class LoginPage extends JFrame {
                     EmailField.grabFocus();
                 } else {
                     System.out.println("login successful");
-                    currentUserEmail = email;
-                    //notes app home page
-                    //pass current user id(currentUserEmailId)
+                    GroupListPage groupsPage = new GroupListPage(loginDataBaseHelper.getCurrentUsername(loginDataBaseHelper.getCurrentUsername(email)));
+                    groupsPage.setSize(935, 585);
+                    groupsPage.setResizable(false);
+                    groupsPage.setVisible(true);
+                    this.dispose();
                 }
             } catch(Exception ex) {
                 throw new RuntimeException(ex);
@@ -94,7 +93,7 @@ public class LoginPage extends JFrame {
     }
 
     private void signinLabelMousePressed() {
-        SigninPage signinFrame = new SigninPage();
+        SignupPage signinFrame = new SignupPage();
         signinFrame.setSize(370, 346);
         signinFrame.setResizable(false);
         signinFrame.setVisible(true);
