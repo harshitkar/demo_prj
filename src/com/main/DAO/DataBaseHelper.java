@@ -219,11 +219,11 @@ public class DataBaseHelper {
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 String mysqlDateTime = now.format(formatter);
-                pst = con.prepareStatement("select * from `group` where `groupId` = ?;");
+                pst = con.prepareStatement("select * from `user_group` where `groupId` = ? and `username` = ?;");
                 pst.setString(1, groupId);
+                pst.setString(2, currentUsername);
                 rs = pst.executeQuery();
-                System.out.println("idhar");
-                if(!rs.isAfterLast()) {
+                if(!rs.next()) {
                     pst = con.prepareStatement("insert into `user_group` values(?, ?, ?, ?);");
                     pst.setString(1, currentUsername);
                     pst.setString(2, groupId);
@@ -246,7 +246,7 @@ public class DataBaseHelper {
                 e.printStackTrace();
             }
         }
-        return true;
+        return false;
     }
 
     public String getCreator(String groupId) {
@@ -279,6 +279,6 @@ public class DataBaseHelper {
     }
 
     public String getRole(String currentUsername, String groupId) {
-        return null;
+        return "member";
     }
 }

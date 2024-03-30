@@ -56,8 +56,10 @@ public class GroupListPage extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 if((new DataBaseHelper().getRole(currentUsername, groupId).equals("member"))) {
                     MemberGroupNotesListPage memberGroupNotesListPage = new MemberGroupNotesListPage(currentUsername);
+                    memberGroupNotesListPage.setVisible(true);
                 } else {
                     AdminGroupNotesListPage adminGroupNotesListPage = new AdminGroupNotesListPage(currentUsername);
+                    adminGroupNotesListPage.setVisible(true);
                 }
             }
 
