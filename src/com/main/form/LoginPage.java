@@ -5,7 +5,7 @@
 package com.main.form;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-import com.main.DAO.DataBaseHelper;
+import com.main.DAO.UserDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +29,7 @@ public class LoginPage extends JFrame {
                 return;
             }
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                DataBaseHelper loginDataBaseHelper = new DataBaseHelper();
+                UserDAO loginDataBaseHelper = new UserDAO();
                 Boolean isAuth = loginDataBaseHelper.auth(email, password);
                 if (!isAuth) {
                     loginErrorLabel.setText("Invalid email and password!");

@@ -1,8 +1,7 @@
 package com.main;
 
-import com.main.DAO.DataBaseHelper;
+import com.main.DAO.UserDAO;
 import com.main.form.GroupListPage;
-import com.main.form.LoginPage;
 
 import javax.swing.*;
 
@@ -14,7 +13,7 @@ public class Main extends JFrame {
 //        loginFrame.setResizable(false);
 //        loginFrame.setVisible(true);
         String email = "user3@gmail.com";
-        String currentUsername = new DataBaseHelper().getCurrentUsername(email);
+        String currentUsername = new UserDAO().getCurrentUsername(email);
         GroupListPage groupsPage = new GroupListPage(currentUsername);
         groupsPage.setSize(935, 585);
         groupsPage.setResizable(false);

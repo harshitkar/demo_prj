@@ -11,95 +11,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class DataBaseHelper {
+public class UserGroupDAO {
+
     PreparedStatement pst;
     ResultSet rs;
     Connection con;
     DataBaseConnector dataBaseConnector = new DataBaseConnector();
-
-    public Boolean auth(String email, String password) {
-        String expectedPassword = "";
-        try{
-            con = dataBaseConnector.connect();
-            rs = con.prepareStatement("SELECT * FROM user WHERE email = '" + email +"';").executeQuery();
-            if(rs.next()){
-                expectedPassword = rs.getString("password");
-            }
-            if(password.equals(expectedPassword)) {
-                return true;
-            }
-        } catch(HeadlessException | SQLException ex){
-            System.out.println("database error");
-        }finally {
-            try {
-                if(con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    public boolean addUser(String username, String email, String password) {
-        try{
-            con = dataBaseConnector.connect();
-            try {
-                con.prepareStatement("insert into user values('" + email +"', '" + username + "', '" + password + "', '" + "Harsh" + "');").executeUpdate();
-            } catch (SQLException e) {
-                return false;
-            }
-        } catch(HeadlessException ex){
-            System.out.println(ex);
-        }finally {
-            try {
-                if(con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
-    }
-
-    public boolean isUsernameAvailable(String username) {
-        try{
-            con = dataBaseConnector.connect();
-            pst = con.prepareStatement("SELECT * FROM user WHERE userName = '" + username +"';");
-            rs = pst.executeQuery();
-            if(!rs.next()){
-                return true;
-            }
-        } catch(HeadlessException | SQLException ex){
-            System.out.println(ex);
-        }finally {
-            try {
-                if(con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    public boolean isEmailRegistered(String email) {
-        try{
-            con = dataBaseConnector.connect();
-            pst = con.prepareStatement("SELECT * FROM user WHERE email = ?;");
-            pst.setString(1, email);
-            rs = pst.executeQuery();
-            if(rs.next()){
-                return true;
-            }
-        } catch(HeadlessException | SQLException ex){
-            System.out.println(ex);
-        }finally {
-            try {
-                if(con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
 
     public ArrayList<user_Group> getGroupList(String currentUsername) {
         ArrayList<user_Group> model = new ArrayList<>();
@@ -131,26 +48,6 @@ public class DataBaseHelper {
         return model;
     }
 
-    public String getCurrentUsername(String email) {
-        try{
-            con = dataBaseConnector.connect();
-            pst = con.prepareStatement("SELECT * FROM user WHERE email = ?;");
-            pst.setString(1, email);
-            rs = pst.executeQuery();
-            if(rs.next()){
-                return rs.getString("username");
-            }
-        } catch(HeadlessException | SQLException ex){
-            System.out.println(ex);
-        }finally {
-            try {
-                if(con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
 
     public boolean isGroupIdAvailable(String groupId) {
         try{
@@ -270,12 +167,14 @@ public class DataBaseHelper {
         return null;
     }
 
+
+
     public int getUnseenCount(String groupId) {
         return 0;
     }
 
     public String getLastPostDate(String groupId) {
-        return "30-03-2024";
+        return "30-03-2024 00:00:00";
     }
 
     public String getRole(String currentUsername, String groupId) {

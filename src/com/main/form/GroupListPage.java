@@ -4,7 +4,7 @@
 
 package com.main.form;
 
-import com.main.DAO.DataBaseHelper;
+import com.main.DAO.UserGroupDAO;
 import model.user_Group;
 
 import java.awt.*;
@@ -27,13 +27,12 @@ public class GroupListPage extends JFrame {
 
     public GroupListPage(String _currentUsername) {
         currentUsername = _currentUsername;
-        groupArrayList = new DataBaseHelper().getGroupList(currentUsername);
+        groupArrayList = new UserGroupDAO().getGroupList(currentUsername);
         initComponents();
         mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         groupGridPanel.add(scrollPane);
         setLocationRelativeTo(getOwner());
-        System.out.println(groupArrayList.size());
         groupArrayList.forEach(n -> {
             JPanel cardPanel = createCardPanel(n.getGroupName(), n.getCreator(), n.getUnseenCount(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId());
             mainPanel.add(cardPanel);
@@ -54,7 +53,7 @@ public class GroupListPage extends JFrame {
         myListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if((new DataBaseHelper().getRole(currentUsername, groupId).equals("member"))) {
+                if((new UserGroupDAO().getRole(currentUsername, groupId).equals("member"))) {
                     MemberGroupNotesListPage memberGroupNotesListPage = new MemberGroupNotesListPage(currentUsername);
                     memberGroupNotesListPage.setVisible(true);
                 } else {

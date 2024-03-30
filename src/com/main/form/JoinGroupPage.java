@@ -4,7 +4,7 @@
 
 package com.main.form;
 
-import com.main.DAO.DataBaseHelper;
+import com.main.DAO.UserGroupDAO;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -42,7 +42,7 @@ public class JoinGroupPage extends JFrame {
                 } catch(Exception ex) {
                     throw new RuntimeException(ex);
                 }
-                DataBaseHelper dataBaseHelper = new DataBaseHelper();
+                UserGroupDAO dataBaseHelper = new UserGroupDAO();
                 if(!dataBaseHelper.isGroupIdAvailable(groupId)) {
                     if(dataBaseHelper.joinGroup(currentUsername, groupId)) {
                         JOptionPane.showMessageDialog(null, "Group Joined successfully");
@@ -65,14 +65,13 @@ public class JoinGroupPage extends JFrame {
 
     private void okButtonMouseClicked(MouseEvent e) {
         String groupId = inputField.getText().trim();
-        System.out.println(groupId);
         if(isAlphanumeric(groupId) && !groupId.isEmpty()) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
             } catch(Exception ex) {
                 throw new RuntimeException(ex);
             }
-            DataBaseHelper dataBaseHelper = new DataBaseHelper();
+            UserGroupDAO dataBaseHelper = new UserGroupDAO();
             if(!dataBaseHelper.isGroupIdAvailable(groupId)) {
                 if(dataBaseHelper.joinGroup(currentUsername, groupId)) {
                     JOptionPane.showMessageDialog(null, "Group Joined successfully");

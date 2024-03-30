@@ -4,7 +4,7 @@
 
 package com.main.form;
 
-import com.main.DAO.DataBaseHelper;
+import com.main.DAO.UserGroupDAO;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +21,6 @@ public class CreateGroupPage extends JFrame {
     String currentUsername;
     public CreateGroupPage(String _currentUsername) {
         currentUsername = _currentUsername;
-        System.out.println(currentUsername);
         initComponents();
     }
 
@@ -44,7 +43,7 @@ public class CreateGroupPage extends JFrame {
             String groupName = inputField.getText();
             if(!groupName.isEmpty()) {
                 String groupId = generateRandomAlphanumericString(6);
-                DataBaseHelper dataBaseHelper = new DataBaseHelper();
+                UserGroupDAO dataBaseHelper = new UserGroupDAO();
                 while(!dataBaseHelper.isGroupIdAvailable(groupId)) {
                     groupId = generateRandomAlphanumericString(6);
                 }
@@ -75,7 +74,7 @@ public class CreateGroupPage extends JFrame {
         String groupName = inputField.getText();
         if(!groupName.isEmpty()) {
             String groupId = generateRandomAlphanumericString(6);
-            DataBaseHelper dataBaseHelper = new DataBaseHelper();
+            UserGroupDAO dataBaseHelper = new UserGroupDAO();
             while(!dataBaseHelper.isGroupIdAvailable(groupId)) {
                 groupId = generateRandomAlphanumericString(6);
             }

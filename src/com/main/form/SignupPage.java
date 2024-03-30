@@ -6,7 +6,7 @@
 package com.main.form;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-import com.main.DAO.DataBaseHelper;
+import com.main.DAO.UserDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +40,7 @@ public class SignupPage extends JFrame {
         } catch(Exception ex) {
             throw new RuntimeException(ex);
         }
-        DataBaseHelper dataBaseHelper = new DataBaseHelper();
+        UserDAO dataBaseHelper = new UserDAO();
         if(dataBaseHelper.isEmailRegistered(email)) {
             emailErrorLabel.setText("Email id already registered");
         } else {
@@ -176,7 +176,7 @@ public class SignupPage extends JFrame {
                     } catch (ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
-                    DataBaseHelper dataBaseHelper = new DataBaseHelper();
+                    UserDAO dataBaseHelper = new UserDAO();
                     isUsernameValid = dataBaseHelper.isUsernameAvailable(usernameField.getText());
                     if (isUsernameValid) {
                         usernameValidLabel.setText("Username Available");

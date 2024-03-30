@@ -1,15 +1,13 @@
 package model;
 
-import com.main.DAO.DataBaseHelper;
-
-import javax.xml.crypto.Data;
+import com.main.DAO.UserGroupDAO;
 
 public class user_Group {
     public user_Group(String groupId, String groupName, String dateJoined) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.dateJoined = dateJoined;
-        DataBaseHelper dataBaseHelper = new DataBaseHelper();
+        UserGroupDAO dataBaseHelper = new UserGroupDAO();
         this.creator = dataBaseHelper.getCreator(groupId);
         unseenCount = dataBaseHelper.getUnseenCount(groupId);
         lastPostDate = dataBaseHelper.getLastPostDate(groupId);
