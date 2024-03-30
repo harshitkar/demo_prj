@@ -37,8 +37,7 @@ public class LoginPage extends JFrame {
                     PasswordField.setText("");
                     EmailField.grabFocus();
                 } else {
-                    System.out.println("login successful");
-                    GroupListPage groupsPage = new GroupListPage(loginDataBaseHelper.getCurrentUsername(loginDataBaseHelper.getCurrentUsername(email)));
+                    GroupListPage groupsPage = new GroupListPage(loginDataBaseHelper.getCurrentUsername(email));
                     groupsPage.setSize(935, 585);
                     groupsPage.setResizable(false);
                     groupsPage.setVisible(true);

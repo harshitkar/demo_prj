@@ -8,10 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class DataBaseHelper {
     PreparedStatement pst;
@@ -46,7 +44,7 @@ public class DataBaseHelper {
         try{
             con = dataBaseConnector.connect();
             try {
-                con.prepareStatement("insert into user values('" + email +"', '" + username + "', '" + password + "');").executeUpdate();
+                con.prepareStatement("insert into user values('" + email +"', '" + username + "', '" + password + "', '" + "Harsh" + "');").executeUpdate();
             } catch (SQLException e) {
                 return false;
             }
@@ -278,5 +276,9 @@ public class DataBaseHelper {
 
     public String getLastPostDate(String groupId) {
         return "30-03-2024";
+    }
+
+    public String getRole(String currentUsername, String groupId) {
+        return null;
     }
 }

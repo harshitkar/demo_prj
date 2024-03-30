@@ -45,7 +45,6 @@ public class SignupPage extends JFrame {
             emailErrorLabel.setText("Email id already registered");
         } else {
             if (dataBaseHelper.addUser(username, email, password)) {
-                System.out.println("Signup successful");
                 GroupListPage groupsPage = new GroupListPage(username);
                 groupsPage.setSize(935, 585);
                 groupsPage.setResizable(false);

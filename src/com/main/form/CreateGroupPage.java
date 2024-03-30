@@ -21,6 +21,7 @@ public class CreateGroupPage extends JFrame {
     String currentUsername;
     public CreateGroupPage(String _currentUsername) {
         currentUsername = _currentUsername;
+        System.out.println(currentUsername);
         initComponents();
     }
 

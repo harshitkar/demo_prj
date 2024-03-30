@@ -13,7 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 /**
  * @author haras
@@ -55,7 +54,11 @@ public class GroupListPage extends JFrame {
         myListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //pass groupId to determine note id and open update note window
+                if((new DataBaseHelper().getRole(currentUsername, groupId).equals("member"))) {
+                    MemberGroupNotesListPage memberGroupNotesListPage = new MemberGroupNotesListPage(currentUsername);
+                } else {
+                    AdminGroupNotesListPage adminGroupNotesListPage = new AdminGroupNotesListPage(currentUsername);
+                }
             }
 
             @Override
