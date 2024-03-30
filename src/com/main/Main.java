@@ -13,7 +13,7 @@ public class Main extends JFrame {
 //        loginFrame.setSize(384, 305);
 //        loginFrame.setResizable(false);
 //        loginFrame.setVisible(true);
-        String email = "user4@gmail.com";
+        String email = "user3@gmail.com";
         String currentUsername = new DataBaseHelper().getCurrentUsername(email);
         GroupListPage groupsPage = new GroupListPage(currentUsername);
         groupsPage.setSize(935, 585);
