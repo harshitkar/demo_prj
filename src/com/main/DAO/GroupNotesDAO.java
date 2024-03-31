@@ -1,7 +1,6 @@
 package com.main.DAO;
 
 import model.GroupNote;
-import model.user_Group;
 
 import java.awt.*;
 import java.sql.Connection;
@@ -30,7 +29,7 @@ public class GroupNotesDAO {
                 pst = con.prepareStatement("SELECT LAST_INSERT_ID();");
                 rs = pst.executeQuery();
                 rs.next();
-                pst = con.prepareStatement("INSERT INTO `groupnotes_group` (groupId, groupNoteId) VALUES (?, ?);");
+                pst = con.prepareStatement("INSERT INTO `groupnotes_user_group` (groupMemberId, groupNoteId, status) VALUES (?, ?, 'seen');");
                 pst.setString(1, groupId);
                 pst.setInt(2, rs.getInt("LAST_INSERT_ID()"));
                 pst.executeUpdate();
@@ -80,12 +79,13 @@ public class GroupNotesDAO {
         ArrayList<GroupNote> model = new ArrayList<>();
         try{
             con = dataBaseConnector.connect();
-            String sql = "SELECT `groupnotes_group`.groupId, `groupnotes_group`.groupNoteId, " +
+            String sql = "SELECT `groupnotes_group`.groupId, `groupnotes_user_group`.groupNoteId, `groupnotes_user_group`.status " +
                     "`groupnotes`.title, `groupnotes`.content `groupnotes`.creation_datetime, " +
                     "`groupnotes`.last_edit_datetime, `groupnotes`.created_by, `groupnotes`.last_edited_by " +
-                    "FROM noteworthy.`groupnotes_group` " +
-                    "INNER JOIN noteworthy.`groupnotes` ON `groupnotes_group`.groupNoteId = `groupnotes`.groupNoteId " +
-                    "WHERE `groupnotes_group`.groupId = ?;";
+                    "FROM noteworthy.`groupnotes_user_group` " +
+                    "INNER JOIN noteworthy.`groupnotes` ON `groupnotes_user_group`.groupNoteId = `groupnotes`.groupNoteId " +
+                    "INNER JOIN noteworthy.`user_group` ON `user_group`.groupMemberId = `groupnotes_user_group`.groupMemberId " +
+                    "WHERE `user_group`.groupId = ?;";
             pst = con.prepareStatement(sql);
             pst.setString(1, groupId);
             rs = pst.executeQuery();
@@ -97,7 +97,8 @@ public class GroupNotesDAO {
                 String last_edit_datetime = rs.getString("last_edit_datetime");
                 String created_by = rs.getString("created_by");
                 String last_edited_by = rs.getString("last_edited_by");
-                model.add(new GroupNote(groupNoteId, title, content, creation_datetime, last_edit_datetime, created_by, last_edited_by));
+                String status = rs.getString("status");
+                model.add(new GroupNote(groupNoteId, title, content, creation_datetime, last_edit_datetime, created_by, last_edited_by, status));
             }
         } catch(HeadlessException | SQLException ex){
             System.out.println(ex);

@@ -1,16 +1,19 @@
 package model;
 
 public class GroupNote {
+    public String getLast_edit_datetime() {
+        return this.last_edit_datetime;
+    }
     int groupNoteId;
     String title;
     String content;
     String creation_datetime;
     String last_edit_datetime;
-
     String created_by;
     String last_edited_by;
+    String status;
 
-    public GroupNote(int groupNoteId, String title, String content, String creation_datetime, String last_edit_datetime, String created_by, String last_edited_by) {
+    public GroupNote(int groupNoteId, String title, String content, String creation_datetime, String last_edit_datetime, String created_by, String last_edited_by, String status) {
         this.groupNoteId = groupNoteId;
         this.title = title;
         this.content = content;
@@ -18,6 +21,7 @@ public class GroupNote {
         this.last_edit_datetime = last_edit_datetime;
         this.created_by = created_by;
         this.last_edited_by = last_edited_by;
+        this.status = status;
     }
 
     public String getCreated_by() {
@@ -43,5 +47,8 @@ public class GroupNote {
 
     public String getLast_edited_by() {
         return last_edited_by;
+    }
+    public String getStatus() {
+        return this.status;
     }
 }

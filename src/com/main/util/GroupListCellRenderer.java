@@ -1,6 +1,6 @@
 package com.main.util;
 
-import model.user_Group;
+import model.userGroup;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
-public class GroupListCellRenderer extends JPanel implements ListCellRenderer<user_Group> {
+public class GroupListCellRenderer extends JPanel implements ListCellRenderer<userGroup> {
     private JLabel groupNameLabel;
     private JPanel rightPanel;
     private JLabel ageLabel;
@@ -42,7 +42,7 @@ public class GroupListCellRenderer extends JPanel implements ListCellRenderer<us
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends user_Group> list, user_Group value, int index, boolean isSelected,
+    public Component getListCellRendererComponent(JList<? extends userGroup> list, userGroup value, int index, boolean isSelected,
                                                   boolean cellHasFocus) {
         groupNameLabel.setText(value.getGroupName());
 

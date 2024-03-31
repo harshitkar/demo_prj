@@ -1,6 +1,6 @@
 package com.main.DAO;
 
-import model.user_Group;
+import model.userGroup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +19,11 @@ public class UserGroupDAO {
     Connection con;
     DataBaseConnector dataBaseConnector = new DataBaseConnector();
 
-    public ArrayList<user_Group> getGroupList(String currentUsername) {
-        ArrayList<user_Group> model = new ArrayList<>();
+    public ArrayList<userGroup> getGroupList(String currentUsername) {
+        ArrayList<userGroup> model = new ArrayList<>();
         try{
             con = dataBaseConnector.connect();
-            String sql = "SELECT `group`.groupId, `group`.groupName, `user_group`.role, `user_group`.dateJoined " +
+            String sql = "SELECT `user_group`.groupMemberId, `group`.groupId, `group`.groupName, `user_group`.role, `user_group`.dateJoined " +
                     "FROM noteworthy.`group` " +
                     "INNER JOIN noteworthy.user_group ON `group`.groupId = user_group.groupId " +
                     "WHERE user_group.username = ?";
@@ -31,10 +31,11 @@ public class UserGroupDAO {
             pst.setString(1, currentUsername);
             rs = pst.executeQuery();
             while(rs.next()){
+                int groupMemberId = rs.getInt("groupMemberId");
                 String groupId = rs.getString("groupId");
                 String groupName = rs.getString("groupName");
                 String dateJoined = rs.getString("dateJoined");
-                user_Group newGroup = new user_Group(groupId, groupName, dateJoined);
+                userGroup newGroup = new userGroup(groupMemberId, groupId, groupName, dateJoined);
                 model.add(newGroup);
             }
         } catch(HeadlessException | SQLException ex){
@@ -87,7 +88,7 @@ public class UserGroupDAO {
                 pst.setString(1, groupId);
                 pst.setString(2, groupName);
                 pst.executeUpdate();
-                pst = con.prepareStatement("insert into `user_group` values(?, ?, ?, ?);");
+                pst = con.prepareStatement("insert into `user_group`(username, groupId, role, dateJoined) values(?, ?, ?, ?);");
                 pst.setString(1, currentUsername);
                 pst.setString(2, groupId);
                 pst.setString(3, "creator");
@@ -213,6 +214,7 @@ public class UserGroupDAO {
     }
 
     public int getUnseenCount(String groupId) {
+
         return 0;
     }
 

@@ -6,6 +6,7 @@ package com.main.form;
 
 import com.main.DAO.Notedao;
 import com.main.DAO.UserGroupDAO;
+import com.main.util.HintTextField;
 import model.PersonalNote;
 
 import java.awt.*;
@@ -36,8 +37,6 @@ public class HomePage extends JFrame {
         personalNoteGridPanel.add(scrollPane);
         setSize(new Dimension(935, 585));
         setLocationRelativeTo(getOwner());
-        initComponents();
-        System.out.println(personalNotesList.get(1).getTitle());
         personalNotesList.forEach(n -> {
             JPanel cardPanel = createCardPanel(n.getNoteID(), n.getTitle(), n.getContent(), n.getCreationDateTime(), n.getLastEditDateTime());
             mainPanel.add(cardPanel);
@@ -138,7 +137,7 @@ public class HomePage extends JFrame {
         personalNoteGridPanel = new JPanel();
         addNoteButton = new JButton();
         deleteNoteButton = new JButton();
-        searchField = new JTextField();
+        searchField = new HintTextField("Search by title or content...");
 
         //======== this ========
         var contentPane = getContentPane();
@@ -185,7 +184,6 @@ public class HomePage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 searchFieldMouseClicked(e);
-                searchFieldMouseClicked(e);
             }
         });
         searchField.addKeyListener(new KeyAdapter() {
@@ -221,6 +219,6 @@ public class HomePage extends JFrame {
     private JPanel personalNoteGridPanel;
     private JButton addNoteButton;
     private JButton deleteNoteButton;
-    private JTextField searchField;
+    private HintTextField searchField;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

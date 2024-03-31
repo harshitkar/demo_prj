@@ -6,7 +6,8 @@ package com.main.form;
 
 import java.awt.event.*;
 import com.main.DAO.UserGroupDAO;
-import model.user_Group;
+import com.main.util.HintTextField;
+import model.userGroup;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -29,7 +30,7 @@ public class GroupListPage extends JFrame {
 
     JScrollPane scrollPane;
 
-    ArrayList<user_Group> groupArrayList;
+    ArrayList<userGroup> groupArrayList;
 
     public GroupListPage(String _currentUsername) {
         currentUsername = _currentUsername;
@@ -41,12 +42,12 @@ public class GroupListPage extends JFrame {
         groupGridPanel.add(scrollPane);
         setLocationRelativeTo(getOwner());
         groupArrayList.forEach(n -> {
-            JPanel cardPanel = createCardPanel(n.getGroupName(), n.getCreator(), n.getUnseenCount(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId());
+            JPanel cardPanel = createCardPanel(n.getGroupName(), n.getCreator(), n.getUnseenCount(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId(), n.getGroupMemberId());
             mainPanel.add(cardPanel);
         });
     }
 
-    private JPanel createCardPanel(String groupName, String creator, int unseenCount, String dateJoined, String lastPostDate, String groupId) {
+    private JPanel createCardPanel(String groupName, String creator, int unseenCount, String dateJoined, String lastPostDate, String groupId, int getGroupMemberId) {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel infoPanel = new JPanel(new GridLayout(2  , 1));
         JPanel titlePanel = new JPanel(new GridLayout(1, 2));
@@ -82,10 +83,10 @@ public class GroupListPage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if((new UserGroupDAO().getRole(currentUsername, groupId).equals("member"))) {
-                    MemberGroupNotesListPage memberGroupNotesListPage = new MemberGroupNotesListPage(currentUsername);
+                    MemberGroupNotesListPage memberGroupNotesListPage = new MemberGroupNotesListPage(currentUsername, groupId);
                     memberGroupNotesListPage.setVisible(true);
                 } else {
-                    AdminGroupNotesListPage adminGroupNotesListPage = new AdminGroupNotesListPage(currentUsername);
+                    AdminGroupNotesListPage adminGroupNotesListPage = new AdminGroupNotesListPage(currentUsername, groupId);
                     adminGroupNotesListPage.setVisible(true);
                 }
             }
@@ -147,7 +148,7 @@ public class GroupListPage extends JFrame {
         groupGridPanel.add(scrollPane);
         groupArrayList.forEach(n -> {
             if(n.getGroupName().toLowerCase(Locale.ROOT).contains(searchFieldText) || n.getCreator().toLowerCase(Locale.ROOT).contains(searchFieldText)) {
-                JPanel cardPanel = createCardPanel(n.getGroupName(), n.getCreator(), n.getUnseenCount(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId());
+                JPanel cardPanel = createCardPanel(n.getGroupName(), n.getCreator(), n.getUnseenCount(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId(), n.getGroupMemberId());
                 mainPanel.add(cardPanel);
             }
         });
@@ -161,7 +162,7 @@ public class GroupListPage extends JFrame {
         groupGridPanel = new JPanel();
         joinGroupButton = new JButton();
         createGroupButton = new JButton();
-        searchField = new JTextField();
+        searchField = new HintTextField("Search by group Name or creator...");
 
         //======== this ========
         var contentPane = getContentPane();
