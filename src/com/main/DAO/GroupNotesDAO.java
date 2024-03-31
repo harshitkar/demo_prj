@@ -79,13 +79,13 @@ public class GroupNotesDAO {
         ArrayList<GroupNote> model = new ArrayList<>();
         try{
             con = dataBaseConnector.connect();
-            String sql = "SELECT `groupnotes_group`.groupId, `groupnotes_user_group`.groupNoteId, `groupnotes_user_group`.status " +
-                    "`groupnotes`.title, `groupnotes`.content `groupnotes`.creation_datetime, " +
-                    "`groupnotes`.last_edit_datetime, `groupnotes`.created_by, `groupnotes`.last_edited_by " +
+            String sql = "SELECT `groupnotes_user_group`.`groupNoteId`, `groupnotes_user_group`.`status`, " +
+                    "`groupnotes`.`title`, `groupnotes`.`content`, `groupnotes`.`creation_datetime`, " +
+                    "`groupnotes`.`last_edit_datetime`, `groupnotes`.`created_by`, `groupnotes`.`last_edited_by` " +
                     "FROM noteworthy.`groupnotes_user_group` " +
-                    "INNER JOIN noteworthy.`groupnotes` ON `groupnotes_user_group`.groupNoteId = `groupnotes`.groupNoteId " +
-                    "INNER JOIN noteworthy.`user_group` ON `user_group`.groupMemberId = `groupnotes_user_group`.groupMemberId " +
-                    "WHERE `user_group`.groupId = ?;";
+                    "INNER JOIN noteworthy.`groupnotes` ON `groupnotes_user_group`.`groupNoteId` = `groupnotes`.`groupNoteId` " +
+                    "INNER JOIN noteworthy.`user_group` ON `user_group`.`groupMemberId` = `groupnotes_user_group`.`groupMemberId` " +
+                    "WHERE `user_group`.`groupId` = ?";
             pst = con.prepareStatement(sql);
             pst.setString(1, groupId);
             rs = pst.executeQuery();
@@ -100,6 +100,7 @@ public class GroupNotesDAO {
                 String status = rs.getString("status");
                 model.add(new GroupNote(groupNoteId, title, content, creation_datetime, last_edit_datetime, created_by, last_edited_by, status));
             }
+            System.out.println(model.size());
         } catch(HeadlessException | SQLException ex){
             System.out.println(ex);
         }finally {

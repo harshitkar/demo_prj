@@ -32,6 +32,7 @@ public class AdminGroupNotesListPage extends JFrame {
     public AdminGroupNotesListPage(String _currentUsername, String groupId) {
         currentUsername = _currentUsername;
         groupNotesArrayList = new GroupNotesDAO().getGroupNotesList(groupId);
+        System.out.println("hi");
         initComponents();
         searchField.setFocusable(false);
         mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
@@ -142,8 +143,6 @@ public class AdminGroupNotesListPage extends JFrame {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Harsh Itkar
         groupGridPanel = new JPanel();
-        joinGroupButton = new JButton();
-        createGroupButton = new JButton();
         searchField = new JTextField();
 
         //======== this ========
@@ -152,38 +151,17 @@ public class AdminGroupNotesListPage extends JFrame {
 
         //======== groupGridPanel ========
         {
-            groupGridPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border
-            . EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax
-            . swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,
-            12 ), java. awt. Color. red) ,groupGridPanel. getBorder( )) ); groupGridPanel. addPropertyChangeListener (new java. beans
-            . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .
-            getPropertyName () )) throw new RuntimeException( ); }} );
+            groupGridPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
+            . border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder
+            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
+            awt .Font .BOLD ,12 ), java. awt. Color. red) ,groupGridPanel. getBorder( )) )
+            ; groupGridPanel. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
+            ;
             groupGridPanel.setLayout(new GridLayout(1, 1));
         }
         contentPane.add(groupGridPanel);
         groupGridPanel.setBounds(35, 140, 875, 280);
-
-        //---- joinGroupButton ----
-        joinGroupButton.setText("Join Group");
-        joinGroupButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                joinGroupButtonMouseClicked(e);
-            }
-        });
-        contentPane.add(joinGroupButton);
-        joinGroupButton.setBounds(725, 440, 145, 30);
-
-        //---- createGroupButton ----
-        createGroupButton.setText("Create Group");
-        createGroupButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                createGroupButtonMouseClicked(e);
-            }
-        });
-        contentPane.add(createGroupButton);
-        createGroupButton.setBounds(565, 440, 141, 30);
 
         //---- searchField ----
         searchField.addMouseListener(new MouseAdapter() {
@@ -224,8 +202,6 @@ public class AdminGroupNotesListPage extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Harsh Itkar
     private JPanel groupGridPanel;
-    private JButton joinGroupButton;
-    private JButton createGroupButton;
     private JTextField searchField;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
