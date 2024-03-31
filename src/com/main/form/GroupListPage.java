@@ -6,7 +6,6 @@ package com.main.form;
 
 import java.awt.event.*;
 import com.main.DAO.UserGroupDAO;
-import com.main.util.HintTextField;
 import model.user_Group;
 
 import java.awt.*;
@@ -28,9 +27,9 @@ public class GroupListPage extends JFrame {
 
     String currentUsername;
 
-    ArrayList<user_Group> groupArrayList;
-
     JScrollPane scrollPane;
+
+    ArrayList<user_Group> groupArrayList;
 
     public GroupListPage(String _currentUsername) {
         currentUsername = _currentUsername;
@@ -162,7 +161,7 @@ public class GroupListPage extends JFrame {
         groupGridPanel = new JPanel();
         joinGroupButton = new JButton();
         createGroupButton = new JButton();
-        searchField = new HintTextField("Search by group name or creator...");
+        searchField = new JTextField();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -170,12 +169,13 @@ public class GroupListPage extends JFrame {
 
         //======== groupGridPanel ========
         {
-            groupGridPanel.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
-            border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER
-            ,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font
-            .BOLD,12),java.awt.Color.red),groupGridPanel. getBorder()));groupGridPanel. addPropertyChangeListener(
-            new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r"
-            .equals(e.getPropertyName()))throw new RuntimeException();}});
+            groupGridPanel.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
+            swing.border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border
+            .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog"
+            ,java.awt.Font.BOLD,12),java.awt.Color.red),groupGridPanel. getBorder
+            ()));groupGridPanel. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
+            .beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException
+            ();}});
             groupGridPanel.setLayout(new GridLayout(1, 1));
         }
         contentPane.add(groupGridPanel);
@@ -207,6 +207,7 @@ public class GroupListPage extends JFrame {
         searchField.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                searchFieldMouseClicked(e);
                 searchFieldMouseClicked(e);
             }
         });
@@ -243,6 +244,6 @@ public class GroupListPage extends JFrame {
     private JPanel groupGridPanel;
     private JButton joinGroupButton;
     private JButton createGroupButton;
-    private HintTextField searchField;
+    private JTextField searchField;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
