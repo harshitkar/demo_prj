@@ -17,10 +17,9 @@ public class HomePage extends javax.swing.JFrame {
     public HomePage() {
 
         initComponents();
-        mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        mainPanel = new JPanel(new GridLayout(0, 3));
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         jPanel1.add(scrollPane);
-        jPanel1.setSize(new Dimension(200, 100));
         setSize(new Dimension(900, 700));
         setLocationRelativeTo(getOwner());
         connectToDatabase();
@@ -72,11 +71,10 @@ public class HomePage extends javax.swing.JFrame {
 
         JLabel creationLabel = new JLabel("Created: " + creationDatetime);
         JLabel lastEditLabel = new JLabel("Last Edit: " + lastEditDatetime);
-        JPanel infoPanel = new JPanel(new GridLayout(2, 1));
+        JPanel infoPanel = new JPanel(new GridLayout(0, 3));
         infoPanel.add(creationLabel);
         infoPanel.add(lastEditLabel);
         panel.add(infoPanel, BorderLayout.SOUTH);
-        panel.setSize(new Dimension(200, 100));
         return panel;
     }
 
@@ -95,7 +93,7 @@ public class HomePage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        GridLayout jPanel1Layout = new GridLayout(0, 3, 10, 10);
+        GridLayout jPanel1Layout = new GridLayout(1, 1, 0, 0);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.preferredLayoutSize(this);
         addNoteButton.setLabel("addNote");

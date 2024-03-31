@@ -2,6 +2,7 @@ package com.main.DAO;
 
 import model.user_Group;
 
+import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -167,7 +168,49 @@ public class UserGroupDAO {
         return null;
     }
 
+    public DefaultListModel<String> getGetGroupAdminList(String groupId) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        try{
+            con = dataBaseConnector.connect();
+            pst = con.prepareStatement("select `username` from `user_group` where groupId = ? and role = 'admin';");
+            pst.setString(1, groupId);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                model.addElement(rs.getString("username"));
+            }
+        } catch(HeadlessException | SQLException ex){
+            System.out.println(ex);
+        }finally {
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return model;
+    }
 
+    public DefaultListModel<String> getGroupMemberList(String groupId) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        try{
+            con = dataBaseConnector.connect();
+            pst = con.prepareStatement("select `username` from `user_group` where groupId = ? and role = 'member';");
+            pst.setString(1, groupId);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                model.addElement(rs.getString("username"));
+            }
+        } catch(HeadlessException | SQLException ex){
+            System.out.println(ex);
+        }finally {
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return model;
+    }
 
     public int getUnseenCount(String groupId) {
         return 0;

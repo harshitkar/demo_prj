@@ -4,14 +4,19 @@
 
 package com.main.form;
 
+import java.awt.event.*;
 import com.main.DAO.UserGroupDAO;
+import com.main.util.HintTextField;
 import model.user_Group;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Map;
 import javax.swing.*;
 
 /**
@@ -25,12 +30,15 @@ public class GroupListPage extends JFrame {
 
     ArrayList<user_Group> groupArrayList;
 
+    JScrollPane scrollPane;
+
     public GroupListPage(String _currentUsername) {
         currentUsername = _currentUsername;
         groupArrayList = new UserGroupDAO().getGroupList(currentUsername);
         initComponents();
+        searchField.setFocusable(false);
         mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
-        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        scrollPane = new JScrollPane(mainPanel);
         groupGridPanel.add(scrollPane);
         setLocationRelativeTo(getOwner());
         groupArrayList.forEach(n -> {
@@ -44,12 +52,33 @@ public class GroupListPage extends JFrame {
         JPanel infoPanel = new JPanel(new GridLayout(2  , 1));
         JPanel titlePanel = new JPanel(new GridLayout(1, 2));
         JPanel lastEditPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel(groupName);
+        JTextArea titleLabel = new JTextArea(groupName);
+        titleLabel.setEditable(false);
+        titleLabel.setLineWrap(true);
+        titleLabel.setBackground(Color.decode("#f0f0f0"));
         JLabel creationLabel = new JLabel();
         JLabel UnseenLabel = new JLabel();
         JLabel lastEditLabel = new JLabel();
         JLabel dateJoinedLabel = new JLabel();
         MouseListener myListener;
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        if(currentUsername.equals(creator)) {
+            creationLabel.setText("Created by: You");
+            dateJoinedLabel.setText("Created at: " + dateJoined);
+        } else {
+            creationLabel.setText("Created by: " + creator);
+            dateJoinedLabel.setText("Joined at: " + dateJoined);
+        }
+        if(unseenCount != 0) {
+            UnseenLabel.setText("Unseen posts: " + unseenCount);
+        }
+        lastEditLabel.setText(lastPostDate);
+        lastEditPanel.add(lastEditLabel, BorderLayout.LINE_END);
+        titlePanel.add(titleLabel);
+        titlePanel.add(lastEditPanel);
+        infoPanel.add(creationLabel);
+        infoPanel.add(dateJoinedLabel);
         myListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -74,32 +103,17 @@ public class GroupListPage extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
+                Font font = titleLabel.getFont();
+                Map attributes = font.getAttributes();
+                attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+                titleLabel.setFont(font.deriveFont(attributes));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-
+                titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
             }
         };
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        if(currentUsername.equals(creator)) {
-            creationLabel.setText("Created by: You");
-            dateJoinedLabel.setText("Created at: " + dateJoined);
-        } else {
-            creationLabel.setText("Created by: " + creator);
-            dateJoinedLabel.setText("Joined at: " + dateJoined);
-        }
-        if(unseenCount != 0) {
-            UnseenLabel.setText("Unseen posts: " + unseenCount);
-        }
-        lastEditLabel.setText(lastPostDate);
-        lastEditPanel.add(lastEditLabel, BorderLayout.LINE_END);
-        titlePanel.add(titleLabel);
-        titlePanel.add(lastEditPanel);
-        infoPanel.add(creationLabel);
-        infoPanel.add(dateJoinedLabel);
         panel.add(titlePanel, BorderLayout.NORTH);
         panel.add(infoPanel, BorderLayout.SOUTH);
         panel.addMouseListener(myListener);
@@ -122,12 +136,33 @@ public class GroupListPage extends JFrame {
         this.dispose();
     }
 
+    private void searchFieldMouseClicked(MouseEvent e) {
+        searchField.setFocusable(true);
+    }
+
+    private void searchFieldKeyReleased(KeyEvent e) {
+        String searchFieldText = searchField.getText().trim().toLowerCase();
+        groupGridPanel.removeAll();
+        mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        scrollPane = new JScrollPane(mainPanel);
+        groupGridPanel.add(scrollPane);
+        groupArrayList.forEach(n -> {
+            if(n.getGroupName().toLowerCase(Locale.ROOT).contains(searchFieldText) || n.getCreator().toLowerCase(Locale.ROOT).contains(searchFieldText)) {
+                JPanel cardPanel = createCardPanel(n.getGroupName(), n.getCreator(), n.getUnseenCount(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId());
+                mainPanel.add(cardPanel);
+            }
+        });
+        groupGridPanel.revalidate();
+        groupGridPanel.repaint();
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Harsh Itkar
         groupGridPanel = new JPanel();
         joinGroupButton = new JButton();
         createGroupButton = new JButton();
+        searchField = new HintTextField("Search by group name or creator...");
 
         //======== this ========
         var contentPane = getContentPane();
@@ -135,22 +170,16 @@ public class GroupListPage extends JFrame {
 
         //======== groupGridPanel ========
         {
-            groupGridPanel. addPropertyChangeListener (new java. beans
-            . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .
-            getPropertyName () )) throw new RuntimeException( ); }} );
+            groupGridPanel.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
+            border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER
+            ,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font
+            .BOLD,12),java.awt.Color.red),groupGridPanel. getBorder()));groupGridPanel. addPropertyChangeListener(
+            new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r"
+            .equals(e.getPropertyName()))throw new RuntimeException();}});
             groupGridPanel.setLayout(new GridLayout(1, 1));
         }
-        if(groupArrayList.size() == 0) {
-            JLabel noGroupLabel = new JLabel();
-            noGroupLabel.setText("You are not a member of any group yet");
-            noGroupLabel.setSize(new Dimension(500, 100));
-            contentPane.add(noGroupLabel);
-            noGroupLabel.setBounds(35, 110, 500, 100);
-        } else {
-            contentPane.add(groupGridPanel);
-            groupGridPanel.setBounds(35, 110, 850, 310);
-        }
-
+        contentPane.add(groupGridPanel);
+        groupGridPanel.setBounds(35, 140, 875, 280);
 
         //---- joinGroupButton ----
         joinGroupButton.setText("Join Group");
@@ -173,6 +202,22 @@ public class GroupListPage extends JFrame {
         });
         contentPane.add(createGroupButton);
         createGroupButton.setBounds(565, 440, 141, 30);
+
+        //---- searchField ----
+        searchField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                searchFieldMouseClicked(e);
+            }
+        });
+        searchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                searchFieldKeyReleased(e);
+            }
+        });
+        contentPane.add(searchField);
+        searchField.setBounds(35, 105, 875, 29);
 
         {
             // compute preferred size
@@ -198,5 +243,6 @@ public class GroupListPage extends JFrame {
     private JPanel groupGridPanel;
     private JButton joinGroupButton;
     private JButton createGroupButton;
+    private HintTextField searchField;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
