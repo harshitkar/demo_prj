@@ -4,18 +4,18 @@
 
 package com.main.form;
 
+import com.main.AddNewNote;
 import com.main.DAO.GroupNotesDAO;
-import com.main.DAO.UserGroupDAO;
-import model.GroupNote;
-import model.userGroup;
+import com.main.model.GroupNote;
+import com.main.util.HintTextField;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 import javax.swing.*;
-import javax.swing.border.*;
 
 /**
  * @author haras
@@ -29,10 +29,11 @@ public class AdminGroupNotesListPage extends JFrame {
 
     ArrayList<GroupNote> groupNotesArrayList;
 
-    public AdminGroupNotesListPage(String _currentUsername, String groupId) {
+    String groupId;
+    public AdminGroupNotesListPage(String _currentUsername, String _groupId) {
         currentUsername = _currentUsername;
+        groupId = _groupId;
         groupNotesArrayList = new GroupNotesDAO().getGroupNotesList(groupId);
-        System.out.println("hi");
         initComponents();
         searchField.setFocusable(false);
         mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
@@ -40,12 +41,12 @@ public class AdminGroupNotesListPage extends JFrame {
         groupGridPanel.add(scrollPane);
         setLocationRelativeTo(getOwner());
         groupNotesArrayList.forEach(n -> {
-            JPanel cardPanel = createCardPanel(n.getTitle(), n.getContent(), n.getCreation_datetime(), n.getLast_edit_datetime(), n.getCreated_by(), n.getLast_edited_by(), n.getStatus(), n.getGroupNoteId());
+            JPanel cardPanel = createCardPanel(n.getTitle(), n.getContent(), n.getCreation_datetime(), n.getLast_edit_datetime(), n.getCreated_by(), n.getLast_edited_by(), n.getGroupNoteId());
             mainPanel.add(cardPanel);
         });
     }
 
-    private JPanel createCardPanel(String title, String content, String creation_datetime, String last_edit_datetime, String creator, String last_edited_by, String status, int groupNoteId) {
+    private JPanel createCardPanel(String title, String content, String creation_datetime, String last_edit_datetime, String creator, String last_edited_by, int groupNoteId) {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JPanel infoPanel = new JPanel(new GridLayout(2  , 1));
         JPanel titlePanel = new JPanel(new GridLayout(1, 2));
@@ -71,11 +72,6 @@ public class AdminGroupNotesListPage extends JFrame {
         }
 
         creationDatetimeLabel.setText("Created at: " + creation_datetime);
-        if(status.equals("unseen")) {
-            titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            lastEditDatetimeLabel.setFont(new Font("Arial", Font.BOLD, 14));
-            creationLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        }
         lastEditDatetimeLabel.setText(last_edit_datetime);
         lastEditedByLabel.setText(last_edited_by);
         lastEditPanel.add(lastEditDatetimeLabel);
@@ -119,24 +115,28 @@ public class AdminGroupNotesListPage extends JFrame {
         return panel;
     }
 
-    private void MouseClicked(MouseEvent e) {
-        // TODO add your code here
-    }
-
-    private void createGroupButtonMouseClicked(MouseEvent e) {
-        // TODO add your code here
-    }
-
     private void searchFieldMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        searchField.setFocusable(true);
     }
 
     private void searchFieldKeyReleased(KeyEvent e) {
-        // TODO add your code here
+        String searchFieldText = searchField.getText().trim().toLowerCase();
+        groupGridPanel.removeAll();
+        mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        scrollPane = new JScrollPane(mainPanel);
+        groupGridPanel.add(scrollPane);
+        groupNotesArrayList.forEach(n -> {
+            if(n.getContent().toLowerCase(Locale.ROOT).contains(searchFieldText) || n.getTitle().toLowerCase(Locale.ROOT).contains(searchFieldText)) {
+                JPanel cardPanel = createCardPanel(n.getTitle(), n.getContent(), n.getCreation_datetime(), n.getLast_edit_datetime(), n.getCreated_by(), n.getLast_edited_by(), n.getGroupNoteId());
+                mainPanel.add(cardPanel);
+            }
+        });
+        groupGridPanel.revalidate();
+        groupGridPanel.repaint();
     }
 
-    private void joinGroupButtonMouseClicked(MouseEvent e) {
-        // TODO add your code here
+    private void AddNoteButtonMouseClicked(MouseEvent e) {
+        AddNewNote addNewNote = new AddNewNote(currentUsername, groupId);
     }
 
     private void initComponents() {
@@ -144,6 +144,10 @@ public class AdminGroupNotesListPage extends JFrame {
         // Generated using JFormDesigner Evaluation license - Harsh Itkar
         groupGridPanel = new JPanel();
         searchField = new JTextField();
+        AddNoteButton = new JButton();
+        panel1 = new JPanel();
+        deleteButton = new JButton();
+        label1 = new JLabel();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -151,13 +155,14 @@ public class AdminGroupNotesListPage extends JFrame {
 
         //======== groupGridPanel ========
         {
-            groupGridPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-            . border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder
-            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
-            awt .Font .BOLD ,12 ), java. awt. Color. red) ,groupGridPanel. getBorder( )) )
-            ; groupGridPanel. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
-            ;
+            groupGridPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (
+            new javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn"
+            , javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
+            , new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 )
+            , java. awt. Color. red) ,groupGridPanel. getBorder( )) ); groupGridPanel. addPropertyChangeListener (
+            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
+            ; }} );
             groupGridPanel.setLayout(new GridLayout(1, 1));
         }
         contentPane.add(groupGridPanel);
@@ -179,6 +184,30 @@ public class AdminGroupNotesListPage extends JFrame {
         });
         contentPane.add(searchField);
         searchField.setBounds(35, 105, 875, 29);
+
+        //---- AddNoteButton ----
+        AddNoteButton.setText("AddNote");
+        AddNoteButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                AddNoteButtonMouseClicked(e);
+            }
+        });
+        contentPane.add(AddNoteButton);
+        AddNoteButton.setBounds(820, 440, 100, 26);
+
+        //======== panel1 ========
+        {
+            panel1.setLayout(new GridLayout(1, 1));
+
+            //---- deleteButton ----
+            deleteButton.setText("Delete");
+            panel1.add(deleteButton);
+        }
+        contentPane.add(panel1);
+        panel1.setBounds(705, 440, 105, 25);
+        contentPane.add(label1);
+        label1.setBounds(930, 550, 20, 25);
 
         {
             // compute preferred size
@@ -203,5 +232,9 @@ public class AdminGroupNotesListPage extends JFrame {
     // Generated using JFormDesigner Evaluation license - Harsh Itkar
     private JPanel groupGridPanel;
     private JTextField searchField;
+    private JButton AddNoteButton;
+    private JPanel panel1;
+    private JButton deleteButton;
+    private JLabel label1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

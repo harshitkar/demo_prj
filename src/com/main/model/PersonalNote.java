@@ -1,6 +1,8 @@
-package model;
+package com.main.model;
 
 public class PersonalNote {
+
+    public PersonalNote() {}
     // Fields
     private int noteID;
     private String title;

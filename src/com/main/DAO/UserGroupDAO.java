@@ -1,6 +1,6 @@
 package com.main.DAO;
 
-import model.userGroup;
+import com.main.model.userGroup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,19 +23,18 @@ public class UserGroupDAO {
         ArrayList<userGroup> model = new ArrayList<>();
         try{
             con = dataBaseConnector.connect();
-            String sql = "SELECT `user_group`.groupMemberId, `group`.groupId, `group`.groupName, `user_group`.role, `user_group`.dateJoined " +
+            String sql = "SELECT  `group`.groupId, `group`.groupName, `user_group`.role, `user_group`.dateJoined " +
                     "FROM noteworthy.`group` " +
-                    "INNER JOIN noteworthy.user_group ON `group`.groupId = user_group.groupId " +
+                    "INNER JOIN noteworthy.user_group ON `group`.groupId = `user_group`.groupId " +
                     "WHERE user_group.username = ?";
             pst = con.prepareStatement(sql);
             pst.setString(1, currentUsername);
             rs = pst.executeQuery();
             while(rs.next()){
-                int groupMemberId = rs.getInt("groupMemberId");
                 String groupId = rs.getString("groupId");
                 String groupName = rs.getString("groupName");
                 String dateJoined = rs.getString("dateJoined");
-                userGroup newGroup = new userGroup(groupMemberId, groupId, groupName, dateJoined);
+                userGroup newGroup = new userGroup(groupId, groupName, dateJoined);
                 model.add(newGroup);
             }
         } catch(HeadlessException | SQLException ex){
@@ -213,16 +212,59 @@ public class UserGroupDAO {
         return model;
     }
 
-    public int getUnseenCount(String groupId) {
-
-        return 0;
-    }
-
     public String getLastPostDate(String groupId) {
-        return "30-03-2024 00:00:00";
+        String lastPostDate = new String();
+        try{
+            con = dataBaseConnector.connect();
+            String sql = "SELECT `groupnotes`.last_edit_datetime " +
+                    "FROM noteworthy.groupnotes_group " +
+                    "JOIN groupnotes ON groupnotes_group.groupNoteId = groupnotes.groupNoteId " +
+                    "WHERE groupnotes_group.groupId = ? " +
+                    "ORDER BY groupnotes.last_edit_datetime DESC " +
+                    "LIMIT 1;";
+            pst = con.prepareStatement(sql);
+            pst.setString(1, groupId);
+            rs = pst.executeQuery();
+            if(rs.next()) {
+                lastPostDate = rs.getString("last_edit_datetime");
+            } else {
+                pst = con.prepareStatement("select dateJoined from `user_group` where groupId = ? and role = 'creator';");
+                pst.setString(1, groupId);
+                rs = pst.executeQuery();
+                rs.next();
+                lastPostDate = rs.getString("dateJoined");
+            }
+        } catch(HeadlessException | SQLException ex){
+            System.out.println(ex);
+        }finally {
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return lastPostDate;
     }
 
     public String getRole(String currentUsername, String groupId) {
-        return "member";
+        String role = new String();
+        try{
+            con = dataBaseConnector.connect();
+            pst = con.prepareStatement("select role from `user_group` where groupId = ? and username = ?;");
+            pst.setString(1, groupId);
+            pst.setString(2, currentUsername);
+            rs = pst.executeQuery();
+            rs.next();
+            role = rs.getString("role");
+        } catch(HeadlessException | SQLException ex){
+            System.out.println(ex);
+        }finally {
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return role;
     }
 }

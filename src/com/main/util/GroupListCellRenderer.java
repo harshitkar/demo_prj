@@ -1,6 +1,6 @@
 package com.main.util;
 
-import model.userGroup;
+import com.main.model.userGroup;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

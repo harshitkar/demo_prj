@@ -5,16 +5,17 @@
 package com.main.form;
 
 import com.main.DAO.GroupNotesDAO;
+import com.main.util.HintTextField;
 import com.main.util.LimitedDocument;
-import model.GroupNote;
+import com.main.model.GroupNote;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 import javax.swing.*;
-import javax.swing.border.*;
 
 /**
  * @author haras
@@ -36,15 +37,15 @@ public class MemberGroupNotesListPage extends JFrame {
         searchField.setFocusable(false);
         mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
         scrollPane = new JScrollPane(mainPanel);
-        groupGridPanel.add(scrollPane);
+        groupNoteGridPanel.add(scrollPane);
         setLocationRelativeTo(getOwner());
         groupNotesArrayList.forEach(n -> {
-            JPanel cardPanel = createCardPanel(n.getTitle(), n.getContent(), n.getCreation_datetime(), n.getLast_edit_datetime(), n.getCreated_by(), n.getLast_edited_by(), n.getStatus(), n.getGroupNoteId());
+            JPanel cardPanel = createCardPanel(n.getTitle(), n.getContent(), n.getCreation_datetime(), n.getLast_edit_datetime(), n.getCreated_by(), n.getLast_edited_by(), n.getGroupNoteId());
             mainPanel.add(cardPanel);
         });
     }
 
-    private JPanel createCardPanel(String title, String content, String creation_datetime, String last_edit_datetime, String creator, String last_edited_by, String status, int groupNoteId) {
+    private JPanel createCardPanel(String title, String content, String creation_datetime, String last_edit_datetime, String creator, String last_edited_by, int groupNoteId) {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JPanel infoPanel = new JPanel(new GridLayout(2  , 1));
         JPanel titlePanel = new JPanel(new GridLayout(1, 2));
@@ -74,11 +75,6 @@ public class MemberGroupNotesListPage extends JFrame {
         }
 
         creationDatetimeLabel.setText("Created at: " + creation_datetime);
-        if(status.equals("unseen")) {
-            titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            lastEditDatetimeLabel.setFont(new Font("Arial", Font.BOLD, 14));
-            creationLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        }
         lastEditDatetimeLabel.setText(last_edit_datetime);
         lastEditedByLabel.setText(last_edited_by);
         lastEditedbyPanel.add(lastEditedByLabel, BorderLayout.LINE_END);
@@ -126,40 +122,53 @@ public class MemberGroupNotesListPage extends JFrame {
     }
 
     private void searchFieldMouseClicked(MouseEvent e) {
-
+        searchField.setFocusable(true);
     }
 
     private void searchFieldKeyReleased(KeyEvent e) {
-
+        String searchFieldText = searchField.getText().trim().toLowerCase();
+        groupNoteGridPanel.removeAll();
+        mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        scrollPane = new JScrollPane(mainPanel);
+        groupNoteGridPanel.add(scrollPane);
+        groupNotesArrayList.forEach(n -> {
+            if(n.getContent().toLowerCase(Locale.ROOT).contains(searchFieldText) || n.getTitle().toLowerCase(Locale.ROOT).contains(searchFieldText)) {
+                JPanel cardPanel = createCardPanel(n.getTitle(), n.getContent(), n.getCreation_datetime(), n.getLast_edit_datetime(), n.getCreated_by(), n.getLast_edited_by(), n.getGroupNoteId());
+                mainPanel.add(cardPanel);
+            }
+        });
+        groupNoteGridPanel.revalidate();
+        groupNoteGridPanel.repaint();
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Harsh Itkar
-        groupGridPanel = new JPanel();
-        searchField = new JTextField();
+        groupNoteGridPanel = new JPanel();
+        searchField = new HintTextField("Search by title or content...");
+        showMembersButton = new JButton();
 
         //======== this ========
         var contentPane = getContentPane();
         contentPane.setLayout(null);
 
-        //======== groupGridPanel ========
+        //======== groupNoteGridPanel ========
         {
-            groupGridPanel.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0
-            ,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM
-            ,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt.Color.red),
-            groupGridPanel. getBorder()));groupGridPanel. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
-            ){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException();}});
-            groupGridPanel.setLayout(new GridLayout(1, 1));
+            groupNoteGridPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
+            border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER
+            , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font
+            .BOLD ,12 ), java. awt. Color. red) ,groupNoteGridPanel. getBorder( )) ); groupNoteGridPanel. addPropertyChangeListener (
+            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order"
+            .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            groupNoteGridPanel.setLayout(new GridLayout(1, 1));
         }
-        contentPane.add(groupGridPanel);
-        groupGridPanel.setBounds(35, 140, 875, 280);
+        contentPane.add(groupNoteGridPanel);
+        groupNoteGridPanel.setBounds(35, 140, 875, 280);
 
         //---- searchField ----
         searchField.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                searchFieldMouseClicked(e);
                 searchFieldMouseClicked(e);
             }
         });
@@ -171,6 +180,11 @@ public class MemberGroupNotesListPage extends JFrame {
         });
         contentPane.add(searchField);
         searchField.setBounds(35, 105, 875, 29);
+
+        //---- showMembersButton ----
+        showMembersButton.setText("Members");
+        contentPane.add(showMembersButton);
+        showMembersButton.setBounds(840, 435, 71, showMembersButton.getPreferredSize().height);
 
         {
             // compute preferred size
@@ -193,7 +207,8 @@ public class MemberGroupNotesListPage extends JFrame {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Harsh Itkar
-    private JPanel groupGridPanel;
+    private JPanel groupNoteGridPanel;
     private JTextField searchField;
+    private JButton showMembersButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

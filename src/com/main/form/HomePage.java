@@ -4,10 +4,10 @@
 
 package com.main.form;
 
-import com.main.DAO.Notedao;
-import com.main.DAO.UserGroupDAO;
-import com.main.util.HintTextField;
-import model.PersonalNote;
+import com.main.AddNewNote;
+import com.main.DAO.PersonalNotesDAO;
+import com.main.ViewNote;
+import com.main.model.PersonalNote;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -29,7 +29,7 @@ public class HomePage extends JFrame {
 
     public HomePage(String _currentUsername) {
         currentUsername = _currentUsername;
-        personalNotesList = new Notedao().loadNotes(currentUsername);
+        personalNotesList = new PersonalNotesDAO().loadNotes(currentUsername);
         initComponents();
         searchField.setFocusable(false);
         mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
@@ -56,7 +56,7 @@ public class HomePage extends JFrame {
         contentArea.setEditable(false);
         JScrollPane contentScrollPane = new JScrollPane(contentArea);
         panel.add(contentScrollPane, BorderLayout.CENTER);
-
+        contentArea.setFocusable(false);
         JLabel creationLabel = new JLabel("Created: " + creationDatetime);
         JLabel lastEditLabel = new JLabel("Last Edit: " + lastEditDatetime);
         JPanel infoPanel = new JPanel(new GridLayout(0, 3));
@@ -66,7 +66,7 @@ public class HomePage extends JFrame {
         panel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //ViewNote()
+                new ViewNote(noteId, title, content);
             }
 
             @Override
@@ -96,7 +96,7 @@ public class HomePage extends JFrame {
     }
 
     private void addNoteButtonMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        new AddNewNote(currentUsername, "null");
     }
 
     private void deleteNoteButtonMouseClicked(MouseEvent e) {
@@ -137,7 +137,7 @@ public class HomePage extends JFrame {
         personalNoteGridPanel = new JPanel();
         addNoteButton = new JButton();
         deleteNoteButton = new JButton();
-        searchField = new HintTextField("Search by title or content...");
+        searchField = new JTextField();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -145,13 +145,12 @@ public class HomePage extends JFrame {
 
         //======== personalNoteGridPanel ========
         {
-            personalNoteGridPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax
-            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-            .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,personalNoteGridPanel. getBorder( )) ); personalNoteGridPanel. addPropertyChangeListener (new java. beans.
-            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .
-            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            personalNoteGridPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
+            border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER
+            , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font
+            .BOLD ,12 ), java. awt. Color. red) ,personalNoteGridPanel. getBorder( )) ); personalNoteGridPanel. addPropertyChangeListener (
+            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r"
+            .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
             personalNoteGridPanel.setLayout(new GridLayout(1, 1));
         }
         contentPane.add(personalNoteGridPanel);
@@ -163,6 +162,7 @@ public class HomePage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 joinGroupButtonMouseClicked(e);
+                addNoteButtonMouseClicked(e);
             }
         });
         contentPane.add(addNoteButton);
@@ -183,6 +183,7 @@ public class HomePage extends JFrame {
         searchField.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                searchFieldMouseClicked(e);
                 searchFieldMouseClicked(e);
             }
         });
@@ -219,6 +220,6 @@ public class HomePage extends JFrame {
     private JPanel personalNoteGridPanel;
     private JButton addNoteButton;
     private JButton deleteNoteButton;
-    private HintTextField searchField;
+    private JTextField searchField;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

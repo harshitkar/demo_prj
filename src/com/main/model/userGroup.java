@@ -1,16 +1,14 @@
-package model;
+package com.main.model;
 
 import com.main.DAO.UserGroupDAO;
 
 public class userGroup {
-    public userGroup(int groupMemberId, String groupId, String groupName, String dateJoined) {
-        this.groupMemberId = groupMemberId;
+    public userGroup(String groupId, String groupName, String dateJoined) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.dateJoined = dateJoined;
         UserGroupDAO dataBaseHelper = new UserGroupDAO();
         this.creator = dataBaseHelper.getCreator(groupId);
-        unseenCount = dataBaseHelper.getUnseenCount(groupId);
         lastPostDate = dataBaseHelper.getLastPostDate(groupId);
     }
     public String getGroupId() {
@@ -35,10 +33,6 @@ public class userGroup {
 
     public String getLastPostDate() {
         return lastPostDate;
-    }
-
-    public int getGroupMemberId() {
-        return groupMemberId;
     }
 
     String groupId;

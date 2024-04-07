@@ -6,17 +6,15 @@ package com.main.form;
 
 import java.awt.event.*;
 import com.main.DAO.UserGroupDAO;
+import com.main.createCardPanel;
 import com.main.util.HintTextField;
-import model.userGroup;
+import com.main.model.userGroup;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 import javax.swing.*;
 
 /**
@@ -37,88 +35,90 @@ public class GroupListPage extends JFrame {
         groupArrayList = new UserGroupDAO().getGroupList(currentUsername);
         initComponents();
         searchField.setFocusable(false);
-        mainPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        mainPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         scrollPane = new JScrollPane(mainPanel);
         groupGridPanel.add(scrollPane);
         setLocationRelativeTo(getOwner());
         groupArrayList.forEach(n -> {
-            JPanel cardPanel = createCardPanel(n.getGroupName(), n.getCreator(), n.getUnseenCount(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId(), n.getGroupMemberId());
+            createCardPanel createCardPanel = new createCardPanel(n.getGroupName(), n.getCreator(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId(), currentUsername);
+            JPanel cardPanel = createCardPanel.getThisPanel();
             mainPanel.add(cardPanel);
         });
     }
 
-    private JPanel createCardPanel(String groupName, String creator, int unseenCount, String dateJoined, String lastPostDate, String groupId, int getGroupMemberId) {
-        JPanel panel = new JPanel(new BorderLayout());
-        JPanel infoPanel = new JPanel(new GridLayout(2  , 1));
-        JPanel titlePanel = new JPanel(new GridLayout(1, 2));
-        JPanel lastEditPanel = new JPanel(new BorderLayout());
-        JTextArea titleLabel = new JTextArea(groupName);
-        titleLabel.setEditable(false);
-        titleLabel.setLineWrap(true);
-        titleLabel.setBackground(Color.decode("#f0f0f0"));
-        JLabel creationLabel = new JLabel();
-        JLabel UnseenLabel = new JLabel();
-        JLabel lastEditLabel = new JLabel();
-        JLabel dateJoinedLabel = new JLabel();
-        MouseListener myListener;
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        if(currentUsername.equals(creator)) {
-            creationLabel.setText("Created by: You");
-            dateJoinedLabel.setText("Created at: " + dateJoined);
-        } else {
-            creationLabel.setText("Created by: " + creator);
-            dateJoinedLabel.setText("Joined at: " + dateJoined);
-        }
-        if(unseenCount != 0) {
-            UnseenLabel.setText("Unseen posts: " + unseenCount);
-        }
-        lastEditLabel.setText(lastPostDate);
-        lastEditPanel.add(lastEditLabel, BorderLayout.LINE_END);
-        titlePanel.add(titleLabel);
-        titlePanel.add(lastEditPanel);
-        infoPanel.add(creationLabel);
-        infoPanel.add(dateJoinedLabel);
-        myListener = new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if((new UserGroupDAO().getRole(currentUsername, groupId).equals("member"))) {
-                    MemberGroupNotesListPage memberGroupNotesListPage = new MemberGroupNotesListPage(currentUsername, groupId);
-                    memberGroupNotesListPage.setVisible(true);
-                } else {
-                    AdminGroupNotesListPage adminGroupNotesListPage = new AdminGroupNotesListPage(currentUsername, groupId);
-                    adminGroupNotesListPage.setVisible(true);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                Font font = titleLabel.getFont();
-                Map attributes = font.getAttributes();
-                attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-                titleLabel.setFont(font.deriveFont(attributes));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            }
-        };
-        panel.add(titlePanel, BorderLayout.NORTH);
-        panel.add(infoPanel, BorderLayout.SOUTH);
-        panel.addMouseListener(myListener);
-        return panel;
-    }
+//    private JPanel createCardPanel(String groupName, String creator, int unseenCount, String dateJoined, String lastPostDate, String groupId, int getGroupMemberId) {
+//        JPanel panel = new JPanel(new BorderLayout());
+//        JPanel infoPanel = new JPanel(new GridLayout(3  , 1));
+//        JPanel titlePanel = new JPanel(new GridLayout(1, 2));
+//        JPanel lastEditPanel = new JPanel(new BorderLayout());
+//        JTextArea titleLabel = new JTextArea(groupName);
+//        titleLabel.setEditable(false);
+//        titleLabel.setLineWrap(true);
+//        titleLabel.setBackground(Color.decode("#f0f0f0"));
+//        JLabel creationLabel = new JLabel();
+//        JLabel UnseenLabel = new JLabel();
+//        JLabel lastEditLabel = new JLabel();
+//        JLabel dateJoinedLabel = new JLabel();
+//        MouseListener myListener;
+//        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+//        if(currentUsername.equals(creator)) {
+//            creationLabel.setText("Created by: You");
+//            dateJoinedLabel.setText("Created at: " + dateJoined);
+//        } else {
+//            creationLabel.setText("Created by: " + creator);
+//            dateJoinedLabel.setText("Joined at: " + dateJoined);
+//        }
+//        if(unseenCount != 0) {
+//            UnseenLabel.setText("Unseen posts: " + unseenCount);
+//            infoPanel.add(UnseenLabel);
+//        }
+//        lastEditLabel.setText(lastPostDate);
+//            lastEditPanel.add(lastEditLabel, BorderLayout.LINE_END);
+//            titlePanel.add(titleLabel);
+//            titlePanel.add(lastEditPanel);
+//            infoPanel.add(creationLabel);
+//            infoPanel.add(dateJoinedLabel);
+//            myListener = new MouseListener() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    if((new UserGroupDAO().getRole(currentUsername, groupId).equals("member"))) {
+//                        MemberGroupNotesListPage memberGroupNotesListPage = new MemberGroupNotesListPage(currentUsername, groupId);
+//                        memberGroupNotesListPage.setVisible(true);
+//                    } else {
+//                        AdminGroupNotesListPage adminGroupNotesListPage = new AdminGroupNotesListPage(currentUsername, groupId);
+//                        adminGroupNotesListPage.setVisible(true);
+//                    }
+//                }
+//
+//                @Override
+//                public void mousePressed(MouseEvent e) {
+//
+//                }
+//
+//                @Override
+//                public void mouseReleased(MouseEvent e) {
+//
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//                    Font font = titleLabel.getFont();
+//                    Map attributes = font.getAttributes();
+//                    attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+//                    titleLabel.setFont(font.deriveFont(attributes));
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//                    titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+//                }
+//            };
+//            panel.add(titlePanel, BorderLayout.NORTH);
+//            panel.add(infoPanel, BorderLayout.SOUTH);
+//            panel.addMouseListener(myListener);
+//            return panel;
+//        }
 
     private void createGroupButtonMouseClicked(MouseEvent e) {
         CreateGroupPage groupPrompt = new CreateGroupPage(currentUsername);
@@ -148,10 +148,17 @@ public class GroupListPage extends JFrame {
         groupGridPanel.add(scrollPane);
         groupArrayList.forEach(n -> {
             if(n.getGroupName().toLowerCase(Locale.ROOT).contains(searchFieldText) || n.getCreator().toLowerCase(Locale.ROOT).contains(searchFieldText)) {
-                JPanel cardPanel = createCardPanel(n.getGroupName(), n.getCreator(), n.getUnseenCount(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId(), n.getGroupMemberId());
+                createCardPanel createCardPanel = new createCardPanel(n.getGroupName(), n.getCreator(), n.getDateJoined(), n.getLastPostDate(), n.getGroupId(), currentUsername);
+                JPanel cardPanel = createCardPanel.getThisPanel();
                 mainPanel.add(cardPanel);
             }
         });
+        if(groupArrayList.size() != 9) {
+            for(int i = groupArrayList.size(); i <= 9; i++) {
+                JPanel voidPanel = new JPanel();
+                mainPanel.add(voidPanel);
+            }
+        }
         groupGridPanel.revalidate();
         groupGridPanel.repaint();
     }

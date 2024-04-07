@@ -11,10 +11,6 @@ public class LimitedDocument extends PlainDocument {
     public LimitedDocument(int maxLength) {
         this.maxLength = maxLength;
     }
-
-    // This method is overriden from the super class. It will be called when
-    // you are trying to insert text in your text component (by typing
-    // or pasting).
     public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
         int currentLength = getLength();
         if( currentLength >= maxLength ) {

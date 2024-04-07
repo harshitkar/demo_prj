@@ -1,16 +1,16 @@
 package com.main.DAO;
 
-import model.PersonalNote;
+import com.main.model.PersonalNote;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Notedao {
+public class PersonalNotesDAO {
     private Connection connection;
     public static ResultSet resultSet;
     DataBaseConnector dataBaseConnector;
 
-    public Notedao() {
+    public PersonalNotesDAO() {
         dataBaseConnector = new DataBaseConnector();
         connection = dataBaseConnector.connect();
     }
@@ -77,24 +77,16 @@ public class Notedao {
         return noteId;
     }
 
-    public void update(PersonalNote note) {
+    public void update(int noteId, String content, String title) {
         try {
-            // Prepare the SQL statement to update an existing note
-            String sql = "UPDATE PersonalNotes SET title = ?, content = ?, last_edit_datetime = NOW() WHERE note_id = ?";
+            String sql = "UPDATE PersonalNotes SET title = ?, content = ?, last_edit_datetime = NOW() WHERE note_id = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            // Set the parameters for the prepared statement
-            preparedStatement.setString(1, note.getTitle());
-            preparedStatement.setString(2, note.getContent());
-            preparedStatement.setInt(3, note.getNoteID());
-
-            // Execute the update statement
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, content);
+            preparedStatement.setInt(3, noteId);
             int rowsAffected = preparedStatement.executeUpdate();
-
-            // Check if the update was successful
             if (rowsAffected > 0) {
                 System.out.println("Note updated successfully.");
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,11 +117,9 @@ public class Notedao {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/notewothy", "username", "password");
             String sql = "SELECT * FROM `personalnotes` WHERE `note_id` = ?";
-            stmt = conn.prepareStatement(sql);
+            stmt = connection.prepareStatement(sql);
             stmt.setInt(1, noteId);
             rs = stmt.executeQuery();
 
@@ -143,17 +133,7 @@ public class Notedao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Close resources
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-
         return note;
     }
 }
